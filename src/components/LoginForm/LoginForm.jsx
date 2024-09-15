@@ -1,4 +1,4 @@
 import { InputWrapper } from "../InputWrapper/InputWrapper";
-import { Form } from "../Form/Form";
+import { AuthForm } from "../Form/AuthForm";
 
 export function LoginForm() {}
