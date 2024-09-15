@@ -1,5 +1,6 @@
 import { Root } from "../pages/Root/Root";
 import { Auth } from "../pages/Auth/Auth";
+import { Layout } from "../pages/Layout/Layout";
 
 export const routes = [
   {
@@ -9,5 +10,9 @@ export const routes = [
   {
     element: <Auth />,
     path: "/auth",
+  },
+  {
+    element: <Layout />,
+    path: "/dashboard",
   },
 ];
