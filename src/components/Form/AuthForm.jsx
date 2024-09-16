@@ -1,12 +1,16 @@
 import { useFetcher } from "react-router-dom";
 import PropTypes from "prop-types";
 
-export function AuthForm({ children, btnText }) {
+export function AuthForm({ children, btnText, intent }) {
   const fetcher = useFetcher();
+  const err = fetcher.data;
   return (
     <fetcher.Form method="POST">
       {children}
-      <button>{btnText}</button>
+      <button name="intent" value={intent}>
+        {btnText}
+      </button>
+      {err && <p>{err}</p>}
     </fetcher.Form>
   );
 }
@@ -14,4 +18,5 @@ export function AuthForm({ children, btnText }) {
 AuthForm.propTypes = {
   children: PropTypes.node,
   btnText: PropTypes.string,
+  intent: PropTypes.string,
 };

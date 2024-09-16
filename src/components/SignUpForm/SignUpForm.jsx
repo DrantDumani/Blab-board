@@ -43,68 +43,67 @@ export function SignUpForm() {
   };
 
   return (
-    <AuthForm btnText={"Sign Up"}>
-      <div>
-        <InputWrapper
-          ref={usernameRef}
-          name={"username"}
-          label="Username:"
-          placeholder="Please enter a username"
-          maxLength={20}
-          onBlur={validateName}
-          onChange={() => removeErrOnValidation(showUserErr, validateName)}
-        />
-        {showUserErr && (
-          <FormError text="Username must be between 1 and 20 characters" />
-        )}
-      </div>
-
-      <div>
-        <InputWrapper
-          ref={emailRef}
-          name={"email"}
-          label="Email:"
-          placeholder="Please enter an email"
-          type="email"
-          onBlur={validateEmail}
-          onChange={() => removeErrOnValidation(showEmailErr, validateEmail)}
-        />
-        {showEmailErr && <FormError text="Please enter a valid email" />}
-      </div>
-
-      <div>
-        <InputWrapper
-          ref={passwordRef}
-          name={"pw"}
-          label="Password:"
-          placeholder="Enter a password"
-          type="password"
-          onBlur={() => {
-            validatePassword();
-            validateConfirmPw();
-          }}
-          onChange={() => {
-            removeErrOnValidation(showPwErr, validatePassword);
-            removeErrOnValidation(showConfirmPwErr, validateConfirmPw);
-          }}
-        />
-        {showPwErr && <FormError text="Please enter a password" />}
-      </div>
-
-      <div>
-        <InputWrapper
-          ref={confirmPwRef}
-          name={"confirmPw"}
-          label="Confirm Password:"
-          placeholder="Passwords must match"
-          type="password"
-          onBlur={validateConfirmPw}
-          onChange={() =>
-            removeErrOnValidation(showConfirmPwErr, validateConfirmPw)
-          }
-        />
-        {showConfirmPwErr && <FormError text="Passwords do not match" />}
-      </div>
-    </AuthForm>
+    <div>
+      <AuthForm btnText={"Sign Up"} intent={"signUp"}>
+        <div>
+          <InputWrapper
+            ref={usernameRef}
+            name={"username"}
+            label="Username:"
+            placeholder="Please enter a username"
+            maxLength={20}
+            onBlur={validateName}
+            onChange={() => removeErrOnValidation(showUserErr, validateName)}
+          />
+          {showUserErr && (
+            <FormError text="Username must be between 1 and 20 characters" />
+          )}
+        </div>
+        <div>
+          <InputWrapper
+            ref={emailRef}
+            name={"email"}
+            label="Email:"
+            placeholder="Please enter an email"
+            type="email"
+            onBlur={validateEmail}
+            onChange={() => removeErrOnValidation(showEmailErr, validateEmail)}
+          />
+          {showEmailErr && <FormError text="Please enter a valid email" />}
+        </div>
+        <div>
+          <InputWrapper
+            ref={passwordRef}
+            name={"pw"}
+            label="Password:"
+            placeholder="Enter a password"
+            type="password"
+            onBlur={() => {
+              validatePassword();
+              validateConfirmPw();
+            }}
+            onChange={() => {
+              removeErrOnValidation(showPwErr, validatePassword);
+              removeErrOnValidation(showConfirmPwErr, validateConfirmPw);
+            }}
+          />
+          {showPwErr && <FormError text="Please enter a password" />}
+        </div>
+        <div>
+          <InputWrapper
+            ref={confirmPwRef}
+            name={"confirmPw"}
+            label="Confirm Password:"
+            placeholder="Passwords must match"
+            type="password"
+            onBlur={validateConfirmPw}
+            onChange={() =>
+              removeErrOnValidation(showConfirmPwErr, validateConfirmPw)
+            }
+          />
+          {showConfirmPwErr && <FormError text="Passwords do not match" />}
+        </div>
+      </AuthForm>
+    </div>
   );
 }
