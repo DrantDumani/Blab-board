@@ -1,16 +1,17 @@
 import { useFetcher } from "react-router-dom";
 import PropTypes from "prop-types";
+import styles from "./AuthForm.module.css";
 
 export function AuthForm({ children, btnText, intent }) {
   const fetcher = useFetcher();
   const err = fetcher.data;
   return (
-    <fetcher.Form method="POST">
+    <fetcher.Form className={styles.authForm} method="POST">
       {children}
-      <button name="intent" value={intent}>
+      <button className={styles.submitAuth} name="intent" value={intent}>
         {btnText}
       </button>
-      {err && <p>{err}</p>}
+      {err && <p className={styles.serverErr}>{err}</p>}
     </fetcher.Form>
   );
 }

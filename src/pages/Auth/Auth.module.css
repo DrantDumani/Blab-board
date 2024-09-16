@@ -1,0 +1,23 @@
+.authWrapper {
+  height: 100%;
+  composes: responsive from "../../styles/styles.css";
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.toggleText {
+  padding-top: 0.6rem;
+}
+
+.btnLink {
+  background-color: inherit;
+  border: none;
+  color: #98ffff;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+}

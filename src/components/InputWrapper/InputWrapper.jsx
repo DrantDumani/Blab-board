@@ -1,5 +1,6 @@
 import { forwardRef, useId } from "react";
 import PropTypes from "prop-types";
+import styles from "./InputWrapper.module.css";
 
 export const InputWrapper = forwardRef(function InputWrapper(
   {
@@ -15,9 +16,12 @@ export const InputWrapper = forwardRef(function InputWrapper(
 ) {
   const id = useId();
   return (
-    <div>
-      <label htmlFor={id}>{label}</label>
+    <div className={styles.inputWrapper}>
+      <label className={styles.formLabel} htmlFor={id}>
+        {label}
+      </label>
       <input
+        className={styles.formInput}
         ref={ref}
         id={id}
         name={name}

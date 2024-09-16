@@ -1,0 +1,19 @@
+.inputWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.formLabel {
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.formInput {
+  padding: 0.2rem;
+  font-family: Mukta;
+  border-radius: 0.5rem;
+}
+
+.formInput:focus {
+  outline: 2.5px solid #9fedfe;
+}

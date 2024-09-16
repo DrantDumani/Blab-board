@@ -1,0 +1,17 @@
+.responsive {
+  padding: 1rem;
+  margin: 0 auto;
+  max-width: 80rem;
+}
+
+@media (min-width: 768px) {
+  .responsive {
+    padding: 2.75rem 3.5rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .responsive {
+    padding: 3.5rem 5rem;
+  }
+}
