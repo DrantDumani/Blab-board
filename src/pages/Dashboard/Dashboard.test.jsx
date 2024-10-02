@@ -1,5 +1,6 @@
 import { Dashboard } from "./Dashboard";
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { describe, it, expect } from "vitest";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
 
@@ -47,9 +48,20 @@ describe("Dashboard page", () => {
     expect(boardImgs[1].getAttribute("src")).toBe(mockData[1].imgurl);
   });
 
-  // it("toggles create board form on button press", async () => {
-  //   const router = createMemoryRouter(mockRoute);
-  //   render(<RouterProvider router={router} />);
+  it("toggles create board form on button press", async () => {
+    const router = createMemoryRouter(mockRoute);
+    render(<RouterProvider router={router} />);
 
-  // })
+    const user = userEvent.setup();
+    const btn = await screen.findByRole("button", { name: "New Board" });
+    await user.click(btn);
+    const form = await screen.findByRole("form", "newBoard");
+
+    const closeBtn = await screen.findByRole("button", { name: "Close" });
+    expect(await screen.findByLabelText("Board Name:")).toBeInTheDocument();
+    expect(await screen.findByLabelText("Board Image:")).toBeInTheDocument();
+
+    await user.click(closeBtn);
+    expect(form).not.toBeInTheDocument();
+  });
 });

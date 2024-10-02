@@ -1,6 +1,16 @@
+import { Outlet } from "react-router-dom";
+
 export function Layout() {
   const token = localStorage.getItem("token");
-  const user = JSON.parse(window.atob(token.split(".")[1]));
+  const user = token ? JSON.parse(window.atob(token.split(".")[1])) : null;
 
-  return <h1>Placeholder for layout page. Welcome {user.username}</h1>;
+  return (
+    <>
+      <header></header>
+      <main>
+        <Outlet context={user} />
+      </main>
+      <footer></footer>
+    </>
+  );
 }

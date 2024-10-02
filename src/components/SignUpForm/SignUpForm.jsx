@@ -44,7 +44,7 @@ export function SignUpForm() {
   };
 
   return (
-    <AuthForm btnText={"Sign Up"} intent={"signUp"}>
+    <AuthForm name={"sign-up"} btnText={"Sign Up"} intent={"signUp"}>
       <div className={styles.errInputWrapper}>
         <InputWrapper
           ref={usernameRef}
