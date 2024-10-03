@@ -2,6 +2,7 @@ import { Link, useLoaderData, useLocation } from "react-router-dom";
 import { AuthForm } from "../../components/Form/AuthForm";
 import { InputWrapper } from "../../components/InputWrapper/InputWrapper";
 import { useState } from "react";
+import styles from "./Dashboard.module.css";
 
 const notFoundImg =
   (import.meta.env.MODE !== "production"
@@ -10,22 +11,36 @@ const notFoundImg =
 
 export function Dashboard() {
   const boards = useLoaderData();
-  console.log("boards", boards);
   const location = useLocation();
   const [showFormModal, setShowFormModal] = useState(false);
 
   const toggleFormModalDisplay = () => setShowFormModal((display) => !display);
 
   return (
-    <div>
-      <div>
+    <div className={styles.dashboard}>
+      <div className={styles.boardUI}>
         {location.pathname === "/dashboard" && (
-          <Link to="your_boards">Your boards</Link>
+          <Link
+            className={`${styles.boardBtn} ${styles.linkBtn}`}
+            to="your_boards"
+          >
+            Your boards
+          </Link>
         )}
-        {location.pathname === "dashboard/your_boards" && (
-          <Link to="/dashboard">All Boards</Link>
+        {location.pathname === "/dashboard/your_boards" && (
+          <Link
+            className={`${styles.boardBtn} ${styles.linkBtn}`}
+            to="/dashboard"
+          >
+            All Boards
+          </Link>
         )}
-        <button onClick={toggleFormModalDisplay}>New Board</button>
+        <button
+          className={`${styles.boardBtn} ${styles.greenBtn}`}
+          onClick={toggleFormModalDisplay}
+        >
+          New Board
+        </button>
       </div>
       <div>
         {boards.map((el) => (
@@ -37,24 +52,27 @@ export function Dashboard() {
       </div>
 
       {showFormModal && (
-        <div>
-          <div>
-            <button onClick={toggleFormModalDisplay}>Close</button>
-            <AuthForm
-              name={"newBoard"}
-              intent={"create-board"}
-              btnText={"Create Board"}
-            >
-              <InputWrapper
-                name="name"
-                label="Board Name:"
-                maxLength={20}
-                placeholder="Enter a board name"
-              />
+        <div className={styles.formModal}>
+          <button
+            className={styles.boardFormBtn}
+            onClick={toggleFormModalDisplay}
+          >
+            Close
+          </button>
+          <AuthForm
+            name={"newBoard"}
+            intent={"create-board"}
+            btnText={"Create Board"}
+          >
+            <InputWrapper
+              name="name"
+              label="Board Name:"
+              maxLength={20}
+              placeholder="Enter a board name"
+            />
 
-              <InputWrapper name="boardImg" label="Board Image:" type="file" />
-            </AuthForm>
-          </div>
+            <InputWrapper name="boardImg" label="Board Image:" type="file" />
+          </AuthForm>
         </div>
       )}
     </div>

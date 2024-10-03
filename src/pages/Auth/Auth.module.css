@@ -1,6 +1,5 @@
 .authWrapper {
   height: 100%;
-  composes: responsive from "../../styles/styles.css";
   display: flex;
   justify-content: center;
   align-items: center;

@@ -29,18 +29,43 @@
   box-sizing: border-box;
 }
 
+html,
+body {
+  height: 100%;
+}
+
 body,
 html,
 #root {
-  min-height: 100%;
   width: 100%;
+}
+
+#root {
+  min-height: 100%;
+  padding: 1rem;
+  margin: 0 auto;
+  max-width: 80rem;
 }
 
 body {
   background-color: #0b0b0b;
   color: #f2f2f2;
+  font-family: Mukta, "Courier New", Courier, monospace;
 }
 
-body {
-  font-family: Mukta, "Courier New", Courier, monospace;
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+@media (min-width: 768px) {
+  #root {
+    padding: 2.75rem 3.5rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  #root {
+    padding: 3.5rem 5rem;
+  }
 }

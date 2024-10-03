@@ -27,6 +27,19 @@ export const routes = [
           return currentUrl.pathname === "/dashboard";
         },
       },
+      {
+        element: <Dashboard />,
+        path: "your_boards",
+        loader: () => [{}],
+      },
+      {
+        element: <h1>The settings page</h1>,
+        path: "settings",
+      },
+      {
+        element: <h1>The friends page</h1>,
+        path: "friends",
+      },
     ],
   },
 ];
