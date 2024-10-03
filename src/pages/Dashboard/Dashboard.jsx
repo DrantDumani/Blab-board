@@ -63,6 +63,7 @@ export function Dashboard() {
             name={"newBoard"}
             intent={"create-board"}
             btnText={"Create Board"}
+            enctype="multipart/form-data"
           >
             <InputWrapper
               name="name"
@@ -71,7 +72,12 @@ export function Dashboard() {
               placeholder="Enter a board name"
             />
 
-            <InputWrapper name="boardImg" label="Board Image:" type="file" />
+            <InputWrapper
+              name="boardImg"
+              label="Board Image:"
+              type="file"
+              isRequired={false}
+            />
           </AuthForm>
         </div>
       )}

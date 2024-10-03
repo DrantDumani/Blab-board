@@ -11,6 +11,7 @@ export const InputWrapper = forwardRef(function InputWrapper(
     maxLength = "",
     onBlur = () => {},
     onChange = () => {},
+    isRequired = true,
   },
   ref
 ) {
@@ -26,7 +27,7 @@ export const InputWrapper = forwardRef(function InputWrapper(
         id={id}
         name={name}
         type={type}
-        required
+        required={isRequired}
         placeholder={placeholder}
         maxLength={maxLength}
         onBlur={onBlur}
@@ -44,4 +45,5 @@ InputWrapper.propTypes = {
   maxLength: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   onBlur: PropTypes.func,
   onChange: PropTypes.func,
+  isRequired: PropTypes.bool,
 };

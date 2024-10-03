@@ -28,3 +28,22 @@ export async function authAction({ request }) {
     } else throw new Response("Error completing request");
   }
 }
+
+export async function dashBoardAction({ request }) {
+  const formData = await request.formData();
+  const inputObj = Object.fromEntries(formData);
+  const intent = formData.get("intent");
+
+  if (intent === "create-board") {
+    const resp = await handleData(
+      "boards",
+      inputObj,
+      "POST",
+      "multipart/form-data"
+    );
+    const data = await resp.json();
+    const { newBoard_id } = data;
+
+    return redirect(`/dashboard/${newBoard_id}`);
+  }
+}

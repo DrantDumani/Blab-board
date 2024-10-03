@@ -2,7 +2,7 @@ import { Root } from "../pages/Root/Root";
 import { Auth } from "../pages/Auth/Auth";
 import { Layout } from "../pages/Layout/Layout";
 import { Dashboard } from "../pages/Dashboard/Dashboard";
-import { authAction } from "../utils/actions";
+import { authAction, dashBoardAction } from "../utils/actions";
 import { fetchPublicBoards } from "../utils/loaders";
 
 export const routes = [
@@ -23,6 +23,7 @@ export const routes = [
         element: <Dashboard />,
         index: true,
         loader: fetchPublicBoards,
+        action: dashBoardAction,
         shouldRevalidate: ({ currentUrl }) => {
           return currentUrl.pathname === "/dashboard";
         },
@@ -30,7 +31,7 @@ export const routes = [
       {
         element: <Dashboard />,
         path: "your_boards",
-        loader: () => [{}],
+        action: dashBoardAction,
       },
       {
         element: <h1>The settings page</h1>,
@@ -39,6 +40,10 @@ export const routes = [
       {
         element: <h1>The friends page</h1>,
         path: "friends",
+      },
+      {
+        element: <h1>This is the page for the specific board</h1>,
+        path: ":board_id",
       },
     ],
   },

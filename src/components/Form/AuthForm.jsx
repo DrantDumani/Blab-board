@@ -2,11 +2,22 @@ import { useFetcher } from "react-router-dom";
 import PropTypes from "prop-types";
 import styles from "./AuthForm.module.css";
 
-export function AuthForm({ children, btnText, intent, name }) {
+export function AuthForm({
+  children,
+  btnText,
+  intent,
+  name,
+  enctype = "application/x-www-form-urlencoded",
+}) {
   const fetcher = useFetcher();
   const err = fetcher.data;
   return (
-    <fetcher.Form name={name} className={styles.authForm} method="POST">
+    <fetcher.Form
+      name={name}
+      className={styles.authForm}
+      method="POST"
+      encType={enctype}
+    >
       {children}
       <button className={styles.submitAuth} name="intent" value={intent}>
         {btnText}
@@ -21,4 +32,5 @@ AuthForm.propTypes = {
   btnText: PropTypes.string,
   intent: PropTypes.string,
   name: PropTypes.string,
+  enctype: PropTypes.string,
 };
