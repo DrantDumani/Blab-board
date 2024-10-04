@@ -55,3 +55,38 @@
   font-weight: 600;
   font-size: 18px;
 }
+
+.boardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  padding: 3.5rem 0;
+  gap: 1.5rem;
+}
+
+.boardWrapper {
+  text-align: center;
+  &:hover > .boardTitle {
+    color: #c0c0c0;
+  }
+}
+
+.boardImg {
+  height: auto;
+  width: 200px;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  object-fit: contain;
+}
+
+.boardControl {
+  background-color: transparent;
+  border: none;
+  color: #91ffe0;
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: 600;
+
+  &:hover {
+    color: #19d09c;
+  }
+}

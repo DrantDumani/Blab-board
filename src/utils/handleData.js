@@ -10,18 +10,17 @@ export const handleData = async (
   ctype = "application/json"
 ) => {
   const token = localStorage.getItem("token");
-  console.log(input);
   const options = {
     mode: "cors",
     method: method,
-    body: JSON.stringify(input),
+    body: ctype === "application/json" ? JSON.stringify(input) : input,
     headers: {
-      // "Content-Type": ctype,
-      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
   };
-  // input && (options.body = JSON.stringify(input));
+  if (ctype === "application/json") {
+    options.headers["Content-Type"] = ctype;
+  }
 
   return fetch(apiStr + endPoint, options);
 };

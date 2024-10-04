@@ -1,4 +1,4 @@
-import { Link, useLoaderData, useLocation } from "react-router-dom";
+import { Link, useLoaderData, useLocation, useFetcher } from "react-router-dom";
 import { AuthForm } from "../../components/Form/AuthForm";
 import { InputWrapper } from "../../components/InputWrapper/InputWrapper";
 import { useState } from "react";
@@ -12,6 +12,7 @@ const notFoundImg =
 export function Dashboard() {
   const boards = useLoaderData();
   const location = useLocation();
+  const fetcher = useFetcher();
   const [showFormModal, setShowFormModal] = useState(false);
 
   const toggleFormModalDisplay = () => setShowFormModal((display) => !display);
@@ -42,11 +43,33 @@ export function Dashboard() {
           New Board
         </button>
       </div>
-      <div>
+      <div className={styles.boardGrid}>
         {boards.map((el) => (
-          <article key={el.id}>
-            <img src={el.imgurl || notFoundImg} />
-            <h2>{el.name}</h2>
+          <article className={styles.boardWrapper} key={el.id}>
+            <img className={styles.boardImg} src={el.imgurl || notFoundImg} />
+            <h2 className={styles.boardTitle}>{el.name}</h2>
+            {!el.members.length ? (
+              <fetcher.Form method="POST">
+                <input type="hidden" value={el.id} />
+                <button
+                  className={styles.boardControl}
+                  name="intent"
+                  value={el.id}
+                >
+                  Join
+                </button>
+              </fetcher.Form>
+            ) : (
+              <>
+                <p>You are a member</p>
+                <Link
+                  className={styles.boardControl}
+                  to={`/dashboard/${el.id}`}
+                >
+                  Enter
+                </Link>
+              </>
+            )}
           </article>
         ))}
       </div>
