@@ -9,6 +9,7 @@ export const InputWrapper = forwardRef(function InputWrapper(
     type = "text",
     placeholder = "",
     maxLength = "",
+    defValue = "",
     onBlur = () => {},
     onChange = () => {},
     isRequired = true,
@@ -32,6 +33,7 @@ export const InputWrapper = forwardRef(function InputWrapper(
         maxLength={maxLength}
         onBlur={onBlur}
         onChange={onChange}
+        defaultValue={defValue}
       />
     </div>
   );
@@ -46,4 +48,5 @@ InputWrapper.propTypes = {
   onBlur: PropTypes.func,
   onChange: PropTypes.func,
   isRequired: PropTypes.bool,
+  defValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };

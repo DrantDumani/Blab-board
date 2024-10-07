@@ -13,10 +13,10 @@ const mockRoute = [
 ];
 
 const mockData = [
-  { id: 1, name: "Big" },
-  { id: 2, name: "Bad", imgurl: "prince_bowser.jpg" },
-  { id: 3, name: "Baby" },
-  { id: 4, name: "Bowser" },
+  { id: 1, name: "Big", members: [] },
+  { id: 2, name: "Bad", imgurl: "prince_bowser.jpg", members: [] },
+  { id: 3, name: "Baby", members: [] },
+  { id: 4, name: "Bowser", members: [] },
 ];
 
 describe("Dashboard page", () => {

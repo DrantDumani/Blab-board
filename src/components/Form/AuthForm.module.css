@@ -25,6 +25,11 @@
   background-color: #c2ffc2;
 }
 
+.submitAuth:disabled {
+  background-color: #737373;
+  color: #000;
+}
+
 .serverErr {
   color: #ff3030;
   text-align: center;

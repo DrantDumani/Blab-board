@@ -8,6 +8,7 @@ export function AuthForm({
   intent,
   name,
   enctype = "application/x-www-form-urlencoded",
+  canSubmit = true,
 }) {
   const fetcher = useFetcher();
   const err = fetcher.data;
@@ -19,7 +20,12 @@ export function AuthForm({
       encType={enctype}
     >
       {children}
-      <button className={styles.submitAuth} name="intent" value={intent}>
+      <button
+        disabled={!canSubmit}
+        className={styles.submitAuth}
+        name="intent"
+        value={intent}
+      >
         {btnText}
       </button>
       {err && <p className={styles.serverErr}>{err}</p>}
@@ -33,4 +39,5 @@ AuthForm.propTypes = {
   intent: PropTypes.string,
   name: PropTypes.string,
   enctype: PropTypes.string,
+  canSubmit: PropTypes.bool,
 };

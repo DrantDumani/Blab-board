@@ -33,6 +33,7 @@ export async function dashBoardAction({ request }) {
   const formData = await request.formData();
   const intent = formData.get("intent");
 
+  // creating a board
   if (intent === "create-board") {
     const resp = await handleData(
       "boards",
@@ -40,9 +41,31 @@ export async function dashBoardAction({ request }) {
       "POST",
       "multipart/form-data"
     );
-    const data = await resp.json();
-    const { newBoard_id } = data;
+    if (resp.ok) {
+      const data = await resp.json();
+      const { newBoard_id } = data;
 
-    return redirect(`/dashboard/${newBoard_id}`);
+      return redirect(`/dashboard/${newBoard_id}`);
+    } else throw new Response("Error creating board");
+  }
+
+  // joining a board
+  if (intent.match(/^join_\d+?/)) {
+    const board_id = formData.get("boardId");
+    console.log(board_id);
+    const resp = await handleData(
+      `boards/${board_id}/members`,
+      undefined,
+      "POST"
+    );
+
+    if (resp.ok) {
+      const data = await resp.json();
+      const { board_id } = data;
+
+      return redirect(`/dashboard/${board_id}`);
+    } else if (resp.status === 404) {
+      throw new Response("Board not found");
+    }
   }
 }

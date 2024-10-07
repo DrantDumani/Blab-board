@@ -1,6 +1,5 @@
 import { Link, useLoaderData, useLocation, useFetcher } from "react-router-dom";
-import { AuthForm } from "../../components/Form/AuthForm";
-import { InputWrapper } from "../../components/InputWrapper/InputWrapper";
+import { BoardForm } from "../../components/BoardForm/BoardForm";
 import { useState } from "react";
 import styles from "./Dashboard.module.css";
 
@@ -50,11 +49,11 @@ export function Dashboard() {
             <h2 className={styles.boardTitle}>{el.name}</h2>
             {!el.members.length ? (
               <fetcher.Form method="POST">
-                <input type="hidden" value={el.id} />
+                <input name="boardId" type="hidden" value={el.id} />
                 <button
                   className={styles.boardControl}
                   name="intent"
-                  value={el.id}
+                  value={`join_${el.id}`}
                 >
                   Join
                 </button>
@@ -82,26 +81,7 @@ export function Dashboard() {
           >
             Close
           </button>
-          <AuthForm
-            name={"newBoard"}
-            intent={"create-board"}
-            btnText={"Create Board"}
-            enctype="multipart/form-data"
-          >
-            <InputWrapper
-              name="name"
-              label="Board Name:"
-              maxLength={20}
-              placeholder="Enter a board name"
-            />
-
-            <InputWrapper
-              name="boardImg"
-              label="Board Image:"
-              type="file"
-              isRequired={false}
-            />
-          </AuthForm>
+          <BoardForm />
         </div>
       )}
     </div>
