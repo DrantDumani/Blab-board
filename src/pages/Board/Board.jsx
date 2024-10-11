@@ -123,39 +123,41 @@ export function Board() {
             {postList.map((post) => {
               const date = new Date(post.timestamp);
               return (
-                <div key={post.id} className={styles.postFlex}>
-                  <img
-                    className={styles.postFlex__userImg}
-                    src={post.author.pfp || notFoundImg}
-                    alt=""
-                  />
-                  <div className={styles.postFlex__text}>
-                    <div className={styles.postHeader}>
-                      <p className={styles.postHeader__bold}>
-                        {post.author.username}
-                      </p>
-                      <p className={styles.postHeader__bold}>{`${
-                        date.getMonth() + 1
-                      }/${date.getDate()}/${date.getFullYear()} ${date.getHours()}:${date
-                        .getMinutes()
-                        .toString()
-                        .padStart(2, "0")}`}</p>
-                      {post.id === Number(user.id) && (
-                        <div className={styles.postFlex__userControls}>
-                          <button
-                            className={`${styles.svgBtn} ${styles.userControl}`}
-                          >
-                            <EditIcon />
-                          </button>
-                          <button
-                            className={`${styles.svgBtn}  ${styles.userControl}`}
-                          >
-                            <DeleteIcon />
-                          </button>
-                        </div>
-                      )}
+                <div key={post.id} className={styles.postOuterWrapper}>
+                  <div className={styles.postFlex}>
+                    <img
+                      className={styles.postFlex__userImg}
+                      src={post.author.pfp || notFoundImg}
+                      alt=""
+                    />
+                    <div className={styles.postFlex__text}>
+                      <div className={styles.postHeader}>
+                        <p className={styles.postHeader__bold}>
+                          {post.author.username}
+                        </p>
+                        <p className={styles.postHeader__bold}>{`${
+                          date.getMonth() + 1
+                        }/${date.getDate()}/${date.getFullYear()} ${date.getHours()}:${date
+                          .getMinutes()
+                          .toString()
+                          .padStart(2, "0")}`}</p>
+                        {post.id === Number(user.id) && (
+                          <div className={styles.postFlex__userControls}>
+                            <button
+                              className={`${styles.svgBtn} ${styles.userControl}`}
+                            >
+                              <EditIcon />
+                            </button>
+                            <button
+                              className={`${styles.svgBtn}  ${styles.userControl}`}
+                            >
+                              <DeleteIcon />
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                      <p className={styles.post}>{post.text}</p>
                     </div>
-                    <p className={styles.post}>{post.text}</p>
                   </div>
                 </div>
               );
@@ -205,17 +207,19 @@ export function Board() {
             showMembers && styles.memberWrapperActive
           }`}
         >
-          <h3 className={styles.boardTitle}>{board.name}</h3>
-          <h4 className={styles.boardOwner}>OWNER</h4>
-          <div className={`${styles.userCard} ${styles.userCard__owner}`}>
-            <img
-              className={styles.userCard__userImg}
-              src={board.creator.pfp || notFoundImg}
-              alt=""
-            />
-            <p className={styles.userCard__username}>
-              {board.creator.username}
-            </p>
+          <div className={styles.memberHeader}>
+            <h3 className={styles.boardTitle}>{board.name}</h3>
+            <h4 className={styles.boardOwner}>OWNER</h4>
+            <div className={`${styles.userCard} ${styles.userCard__owner}`}>
+              <img
+                className={styles.userCard__userImg}
+                src={board.creator.pfp || notFoundImg}
+                alt=""
+              />
+              <p className={styles.userCard__username}>
+                {board.creator.username}
+              </p>
+            </div>
           </div>
           {board.members
             .filter((el) => el.id !== board.creator.id)
