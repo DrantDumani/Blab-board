@@ -1,6 +1,7 @@
 import { Root } from "../pages/Root/Root";
 import { Auth } from "../pages/Auth/Auth";
 import { Layout } from "../pages/Layout/Layout";
+import { Board } from "../pages/Board/Board";
 import { Dashboard } from "../pages/Dashboard/Dashboard";
 import { authAction, dashBoardAction } from "../utils/actions";
 import { fetchPublicBoards } from "../utils/loaders";
@@ -42,7 +43,7 @@ export const routes = [
         path: "friends",
       },
       {
-        element: <h1>This is the page for the specific board</h1>,
+        element: <Board />,
         path: ":board_id",
       },
     ],

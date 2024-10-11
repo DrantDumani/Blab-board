@@ -52,12 +52,7 @@ export async function dashBoardAction({ request }) {
   // joining a board
   if (intent.match(/^join_\d+?/)) {
     const board_id = formData.get("boardId");
-    console.log(board_id);
-    const resp = await handleData(
-      `boards/${board_id}/members`,
-      undefined,
-      "POST"
-    );
+    const resp = await handleData(`members/${board_id}`, undefined, "POST");
 
     if (resp.ok) {
       const data = await resp.json();

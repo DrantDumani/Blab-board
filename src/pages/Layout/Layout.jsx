@@ -10,7 +10,7 @@ export function Layout() {
   const navigation = useNavigation();
 
   return (
-    <>
+    <div className={styles.layoutWrapper}>
       {navigation.state !== "idle" && <Loading />}
       <header className={styles.header}>
         <h1>Blab Board</h1>
@@ -20,6 +20,6 @@ export function Layout() {
         <Outlet context={user} />
       </main>
       <footer></footer>
-    </>
+    </div>
   );
 }
