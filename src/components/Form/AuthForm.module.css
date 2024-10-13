@@ -1,13 +1,8 @@
 .authForm {
+  composes: modalContent from "../../styles/styles.css";
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  background-color: #262626;
-  border: 3px solid #fff;
-  border-radius: 8px;
-  padding: 1rem;
-  width: 420px;
-  max-width: 100%;
 }
 
 .submitAuth {

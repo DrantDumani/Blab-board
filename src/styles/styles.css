@@ -4,6 +4,15 @@
   max-width: 80rem;
 }
 
+.modalContent {
+  background-color: #262626;
+  border: 3px solid #fff;
+  border-radius: 8px;
+  padding: 1rem;
+  width: 420px;
+  max-width: 100%;
+}
+
 @media (min-width: 768px) {
   .responsive {
     padding: 2.75rem 3.5rem;

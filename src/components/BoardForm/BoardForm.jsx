@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 
 export function BoardForm({ defValue = "" }) {
   const [fileSize, setFileSize] = useState(0);
+  const maxFileSize = 1048576;
 
   const handleChange = (e) => {
     const file = e.target.files[0];
@@ -17,7 +18,7 @@ export function BoardForm({ defValue = "" }) {
       intent={"create-board"}
       btnText={"Save Board"}
       enctype="multipart/form-data"
-      canSubmit={fileSize < 1048576}
+      canSubmit={fileSize <= maxFileSize}
     >
       <InputWrapper
         name="name"
@@ -34,7 +35,7 @@ export function BoardForm({ defValue = "" }) {
         isRequired={false}
         onChange={handleChange}
       />
-      {fileSize > 1048576 && (
+      {fileSize >= maxFileSize && (
         <FormError text="Image size must be 1mb or less" />
       )}
     </AuthForm>

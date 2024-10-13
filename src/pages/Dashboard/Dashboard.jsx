@@ -1,12 +1,9 @@
 import { Link, useLoaderData, useLocation, useFetcher } from "react-router-dom";
 import { BoardForm } from "../../components/BoardForm/BoardForm";
 import { useState } from "react";
+import { CircleImage } from "../../components/CircleImage/CircleImage";
+import { ModalWrapper } from "../../components/ModalWrapper/ModalWrapper";
 import styles from "./Dashboard.module.css";
-
-const notFoundImg =
-  (import.meta.env.MODE !== "production"
-    ? "http://localhost:3000/"
-    : "INSERT_PROD_URL_HERE") + "images/notFound.png";
 
 export function Dashboard() {
   const boards = useLoaderData();
@@ -45,7 +42,7 @@ export function Dashboard() {
       <div className={styles.boardGrid}>
         {boards.map((el) => (
           <article className={styles.boardWrapper} key={el.id}>
-            <img className={styles.boardImg} src={el.imgurl || notFoundImg} />
+            <CircleImage src={el.imgurl} dimensions={200} />
             <h2 className={styles.boardTitle}>{el.name}</h2>
             {!el.members.length ? (
               <fetcher.Form method="POST">
@@ -74,15 +71,9 @@ export function Dashboard() {
       </div>
 
       {showFormModal && (
-        <div className={styles.formModal}>
-          <button
-            className={styles.boardFormBtn}
-            onClick={toggleFormModalDisplay}
-          >
-            Close
-          </button>
+        <ModalWrapper toggleModalOff={toggleFormModalDisplay}>
           <BoardForm />
-        </div>
+        </ModalWrapper>
       )}
     </div>
   );
