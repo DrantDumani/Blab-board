@@ -28,6 +28,12 @@
   border: none;
   background-color: inherit;
   cursor: pointer;
+
+  & svg {
+    &:hover {
+      filter: drop-shadow(1px 1px 5px #fff);
+    }
+  }
 }
 
 .postList {
@@ -45,6 +51,10 @@
 .userCard {
   display: flex;
   gap: 1rem;
+
+  & img {
+    align-self: flex-start;
+  }
 }
 
 .memberHeader {
@@ -54,16 +64,6 @@
 
 .userCard {
   margin-bottom: 1.8rem;
-}
-
-.postFlex__userImg,
-.userCard__userImg {
-  width: 3.125rem;
-  height: auto;
-  object-fit: cover;
-  border-radius: 50%;
-  border: 1.5px solid #fff;
-  align-self: flex-start;
 }
 
 .postFlex__text {
@@ -97,6 +97,10 @@
   & svg {
     width: var(--header-font-size);
     height: auto;
+
+    &:hover {
+      filter: drop-shadow(1px 1px 5px #fff);
+    }
   }
 }
 
@@ -125,6 +129,10 @@
   & svg {
     width: 2rem;
     height: auto;
+
+    &:hover {
+      filter: drop-shadow(1px 1px 5px #fff);
+    }
   }
 }
 

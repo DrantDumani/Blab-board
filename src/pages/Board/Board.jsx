@@ -6,6 +6,7 @@ import DeleteIcon from "../../assets/icons/trash-bin-trash-svgrepo-com.svg?react
 import ImageIcon from "../../assets/icons/image-circle-svgrepo-com.svg?react";
 import SendIcon from "../../assets/icons/send-svgrepo-com.svg?react";
 import MessageIcon from "../../assets/icons/message-square-svgrepo-com.svg?react";
+import { CircleImage } from "../../components/CircleImage/CircleImage";
 import { useState } from "react";
 
 export function Board() {
@@ -81,11 +82,6 @@ export function Board() {
     },
   ];
 
-  const notFoundImg =
-    (import.meta.env.MODE !== "production"
-      ? "http://localhost:3000/"
-      : "INSERT_PROD_URL_HERE") + "images/notFound.png";
-
   return (
     <>
       <div className={styles.boardControls}>
@@ -125,11 +121,7 @@ export function Board() {
               return (
                 <div key={post.id} className={styles.postOuterWrapper}>
                   <div className={styles.postFlex}>
-                    <img
-                      className={styles.postFlex__userImg}
-                      src={post.author.pfp || notFoundImg}
-                      alt=""
-                    />
+                    <CircleImage src={post.author.pfp} dimensions={50} />
                     <div className={styles.postFlex__text}>
                       <div className={styles.postHeader}>
                         <p className={styles.postHeader__bold}>
@@ -211,11 +203,7 @@ export function Board() {
             <h3 className={styles.boardTitle}>{board.name}</h3>
             <h4 className={styles.boardOwner}>OWNER</h4>
             <div className={`${styles.userCard} ${styles.userCard__owner}`}>
-              <img
-                className={styles.userCard__userImg}
-                src={board.creator.pfp || notFoundImg}
-                alt=""
-              />
+              <CircleImage src={board.creator.pfp} dimensions={50} />
               <p className={styles.userCard__username}>
                 {board.creator.username}
               </p>
@@ -225,11 +213,7 @@ export function Board() {
             .filter((el) => el.id !== board.creator.id)
             .map((el) => (
               <div className={styles.userCard} key={el.id}>
-                <img
-                  className={styles.userCard__userImg}
-                  src={el.pfp || notFoundImg}
-                  alt=""
-                />
+                <CircleImage src={el.pfp} dimensions={50} />
                 <p className={styles.userCard__username}>{el.username}</p>
               </div>
             ))}
