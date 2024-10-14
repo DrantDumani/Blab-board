@@ -1,13 +1,14 @@
 :root {
-  --header-font-size: 1rem;
-  --border-rules: 1px solid #fff;
   --top-section-pad: 1.8rem;
 }
+
+@value globalVars: "../../styles/globalVars.module.css";
+@value borderRules, rightPad, headerFontSize from globalVars;
 
 .board_member_wrapper {
   display: flex;
   position: relative;
-  border-bottom: var(--border-rules);
+  border-bottom: borderRules;
 }
 
 .boardWrapper {
@@ -21,92 +22,21 @@
   display: flex;
   justify-content: space-around;
   padding-bottom: 0.5rem;
-  border-bottom: var(--border-rules);
+  border-bottom: borderRules;
 }
 
 .svgBtn {
-  border: none;
-  background-color: inherit;
-  cursor: pointer;
-
-  & svg {
-    &:hover {
-      filter: drop-shadow(1px 1px 5px #fff);
-    }
-  }
+  composes: svgControls from "../../styles/styles.css";
 }
 
-.postList {
-  display: flex;
-  flex-direction: column;
-  gap: 1.8rem;
-}
-
-.postOuterWrapper {
-  border-bottom: var(--border-rules);
-  padding-bottom: 1.8rem;
-}
-
-.postFlex,
 .userCard {
-  display: flex;
-  gap: 1rem;
-
-  & img {
-    align-self: flex-start;
-  }
+  composes: post_user_card from "../../styles/styles.css";
+  margin-bottom: 1.8rem;
 }
 
 .memberHeader {
   margin-bottom: 1.8rem;
-  border-bottom: var(--border-rules);
-}
-
-.userCard {
-  margin-bottom: 1.8rem;
-}
-
-.postFlex__text {
-  flex-basis: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-}
-
-.postHeader {
-  display: flex;
-  gap: 0.8rem;
-}
-
-.postHeader__bold {
-  font-weight: 700;
-  font-size: 1rem;
-}
-
-.postFlex__userControls {
-  margin-left: auto;
-  display: flex;
-  gap: 0.4rem;
-  align-self: center;
-}
-
-.userControl {
-  width: var(--header-font-size);
-  height: var(--header-font-size);
-
-  & svg {
-    width: var(--header-font-size);
-    height: auto;
-
-    &:hover {
-      filter: drop-shadow(1px 1px 5px #fff);
-    }
-  }
-}
-
-.post {
-  font-size: 1.125rem;
-  line-height: 1.2;
+  border-bottom: borderRules;
 }
 
 .postOptions {
@@ -201,7 +131,7 @@
 
   .boardWrapper {
     flex-basis: 80%;
-    border-right: var(--border-rules);
+    border-right: borderRules;
   }
 
   .boardWrapper,
@@ -211,7 +141,6 @@
     scrollbar-width: none;
   }
 
-  .postFlex,
   .postOptions {
     padding-right: 0.8rem;
   }

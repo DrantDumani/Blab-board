@@ -22,6 +22,27 @@
   cursor: pointer;
 }
 
+.post_user_card {
+  display: flex;
+  gap: 1rem;
+
+  & img {
+    align-self: flex-start;
+  }
+}
+
+.svgControls {
+  border: none;
+  background-color: inherit;
+  cursor: pointer;
+
+  & svg {
+    &:hover {
+      filter: drop-shadow(1px 1px 5px #fff);
+    }
+  }
+}
+
 @media (min-width: 768px) {
   .responsive {
     padding: 2.75rem 3.5rem;

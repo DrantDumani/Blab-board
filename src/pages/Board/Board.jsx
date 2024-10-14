@@ -1,13 +1,12 @@
 import styles from "./Board.module.css";
 import SettingsIcon from "../../assets/icons/settings-svgrepo-com.svg?react";
 import MemberIcon from "../../assets/icons/friend-svgrepo-com.svg?react";
-import EditIcon from "../../assets/icons/edit-svgrepo-com.svg?react";
-import DeleteIcon from "../../assets/icons/trash-bin-trash-svgrepo-com.svg?react";
 import ImageIcon from "../../assets/icons/image-circle-svgrepo-com.svg?react";
 import SendIcon from "../../assets/icons/send-svgrepo-com.svg?react";
 import MessageIcon from "../../assets/icons/message-square-svgrepo-com.svg?react";
 import { CircleImage } from "../../components/CircleImage/CircleImage";
 import { BoardSettings } from "../../components/BoardSettings/BoardSettings";
+import { PostList } from "../../components/PostList/PostList";
 import { useState } from "react";
 import { useOutletContext, useLoaderData } from "react-router-dom";
 
@@ -71,65 +70,7 @@ export function Board() {
       </div>
       <div className={styles.board_member_wrapper}>
         <section className={styles.boardWrapper}>
-          <div className={styles.postList}>
-            {board.posts.map((post) => {
-              const date = new Date(post.timestamp);
-              return (
-                <div
-                  key={post.id}
-                  data-testid="postWrapper"
-                  className={styles.postOuterWrapper}
-                >
-                  <div className={styles.postFlex}>
-                    <CircleImage src={post.author.pfp} dimensions={50} />
-                    <div className={styles.postFlex__text}>
-                      <div className={styles.postHeader}>
-                        <p className={styles.postHeader__bold}>
-                          {post.author.username}
-                        </p>
-                        <p
-                          data-testid="date"
-                          className={styles.postHeader__bold}
-                        >{`${(date.getMonth() + 1)
-                          .toString()
-                          .padStart(2, "0")}/${date
-                          .getDate()
-                          .toString()
-                          .padStart(
-                            2,
-                            "0"
-                          )}/${date.getFullYear()} ${date.getHours()}:${date
-                          .getMinutes()
-                          .toString()
-                          .padStart(2, "0")}`}</p>
-                        {post.author_id === Number(user.id) && (
-                          <div className={styles.postFlex__userControls}>
-                            <button
-                              title="Edit"
-                              aria-label="Edit"
-                              className={`${styles.svgBtn} ${styles.userControl}`}
-                            >
-                              <EditIcon />
-                            </button>
-                            <button
-                              className={`${styles.svgBtn}  ${styles.userControl}`}
-                              title="Delete"
-                              aria-label="Delete"
-                            >
-                              <DeleteIcon />
-                            </button>
-                          </div>
-                        )}
-                      </div>
-                      <p data-testid="post" className={styles.post}>
-                        {post.text}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+          <PostList posts={board.posts} userId={Number(user.id)} />
           <div className={styles.postOptions}>
             {/* Opens a form for posting images */}
             <button
