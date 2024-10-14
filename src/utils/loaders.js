@@ -12,3 +12,15 @@ export async function fetchPublicBoards() {
     return redirect("/");
   } else throw new Response("Error completing request");
 }
+
+export async function fetchAllBoardInfo({ params }) {
+  const resp = await handleData(`boards/${params.board_id}`);
+
+  if (resp.ok) {
+    const boardInfo = await resp.json();
+    return boardInfo;
+  } else if (resp.status === 401) {
+    localStorage.removeItem("token");
+    return redirect("/");
+  } else throw new Response("Error completing request");
+}

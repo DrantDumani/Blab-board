@@ -6,14 +6,9 @@
 }
 
 .submitAuth {
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  font-size: 1rem;
-  font-family: inherit;
-  max-width: 240px;
-  align-self: center;
+  composes: btn from "../../styles/styles.css";
   background-color: #4fff4f;
-  cursor: pointer;
+  align-self: center;
 }
 
 .submitAuth:hover {

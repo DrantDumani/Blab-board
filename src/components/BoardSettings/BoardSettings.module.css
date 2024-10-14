@@ -1,0 +1,32 @@
+.settingsWrapper {
+  composes: modalContent from "../../styles/styles.css";
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.btnContainer {
+  display: flex;
+  gap: 1rem;
+}
+
+.settingsBtn {
+  composes: btn from "../../styles/styles.css";
+}
+
+.btnYellow {
+  background-color: #eeff34;
+
+  &:hover {
+    background-color: #f4ff81;
+  }
+}
+
+.btnRed {
+  background-color: #ff3636;
+
+  &:hover {
+    background-color: #ff7878;
+  }
+}

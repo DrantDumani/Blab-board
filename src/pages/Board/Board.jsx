@@ -7,91 +7,47 @@ import ImageIcon from "../../assets/icons/image-circle-svgrepo-com.svg?react";
 import SendIcon from "../../assets/icons/send-svgrepo-com.svg?react";
 import MessageIcon from "../../assets/icons/message-square-svgrepo-com.svg?react";
 import { CircleImage } from "../../components/CircleImage/CircleImage";
+import { BoardSettings } from "../../components/BoardSettings/BoardSettings";
 import { useState } from "react";
+import { useOutletContext, useLoaderData } from "react-router-dom";
 
 export function Board() {
-  const token = localStorage.getItem("token");
-  const user = token ? JSON.parse(window.atob(token.split(".")[1])) : null;
+  const user = useOutletContext();
   const [showMembers, setShowMembers] = useState(false);
   const [labelTransform, setLabelTransform] = useState(false);
   const [isMessage, setIsMessage] = useState(false);
+  const [showBoardSettings, setShowBoardSettings] = useState(false);
+  const board = useLoaderData();
+  const creator = board.members.find((m) => m.id === board.creator_id);
 
   const toggleShowMembers = () => setShowMembers((t) => !t);
+  const toggleBoardSettings = () => setShowBoardSettings((t) => !t);
   const handleInputChange = (e) => {
     setIsMessage(!!e.target.value);
   };
 
-  const board = {
-    name: "Filler",
-    creator: {
-      username: "foo",
-      pfp: "",
-      id: 1,
-    },
-    members: [
-      {
-        username: "baz",
-        pfp: "",
-        id: 2,
-      },
-      {
-        username: "bar",
-        pfp: "",
-        id: 3,
-      },
-      {
-        username: "abra",
-        pfp: "",
-        id: 4,
-      },
-    ],
+  const boardSettings = {
+    name: board.name,
+    id: board.id,
+    creator_id: board.creator_id,
+    imgurl: board.imgurl,
+    img_id: board.img_id,
+    created_at: board.created_at,
   };
-  const postList = [
-    {
-      id: 1,
-      author_id: 1,
-      text: "Do, a deer. A female deer",
-      timestamp: Date.now(),
-      is_edited: true,
-      author: {
-        username: "foo",
-        pfp: "",
-      },
-    },
-    {
-      id: 2,
-      author_id: 1,
-      text: "The first album is better than the first album",
-      timestamp: Date.now(),
-      is_edited: false,
-      author: {
-        username: "bar",
-        pfp: "",
-      },
-    },
-    {
-      id: 3,
-      author_id: 1,
-      text: "Three minutes and 33 seconds before mammalians return",
-      timestamp: Date.now(),
-      is_edited: false,
-      author: {
-        username: "foo",
-        pfp: "",
-      },
-    },
-  ];
 
   return (
     <>
       <div className={styles.boardControls}>
-        <button
-          title="Settings"
-          aria-label="Settings"
-          className={styles.svgBtn}
-        >
-          <SettingsIcon />
-        </button>
+        {board.type === "public" && (
+          <button
+            title="Settings"
+            aria-label="Settings"
+            className={styles.svgBtn}
+            onClick={toggleBoardSettings}
+          >
+            <SettingsIcon />
+          </button>
+        )}
         {!showMembers && (
           <button
             className={`${styles.svgBtn} ${styles.mobileOnly}`}
@@ -116,10 +72,14 @@ export function Board() {
       <div className={styles.board_member_wrapper}>
         <section className={styles.boardWrapper}>
           <div className={styles.postList}>
-            {postList.map((post) => {
+            {board.posts.map((post) => {
               const date = new Date(post.timestamp);
               return (
-                <div key={post.id} className={styles.postOuterWrapper}>
+                <div
+                  key={post.id}
+                  data-testid="postWrapper"
+                  className={styles.postOuterWrapper}
+                >
                   <div className={styles.postFlex}>
                     <CircleImage src={post.author.pfp} dimensions={50} />
                     <div className={styles.postFlex__text}>
@@ -127,28 +87,43 @@ export function Board() {
                         <p className={styles.postHeader__bold}>
                           {post.author.username}
                         </p>
-                        <p className={styles.postHeader__bold}>{`${
-                          date.getMonth() + 1
-                        }/${date.getDate()}/${date.getFullYear()} ${date.getHours()}:${date
+                        <p
+                          data-testid="date"
+                          className={styles.postHeader__bold}
+                        >{`${(date.getMonth() + 1)
+                          .toString()
+                          .padStart(2, "0")}/${date
+                          .getDate()
+                          .toString()
+                          .padStart(
+                            2,
+                            "0"
+                          )}/${date.getFullYear()} ${date.getHours()}:${date
                           .getMinutes()
                           .toString()
                           .padStart(2, "0")}`}</p>
-                        {post.id === Number(user.id) && (
+                        {post.author_id === Number(user.id) && (
                           <div className={styles.postFlex__userControls}>
                             <button
+                              title="Edit"
+                              aria-label="Edit"
                               className={`${styles.svgBtn} ${styles.userControl}`}
                             >
                               <EditIcon />
                             </button>
                             <button
                               className={`${styles.svgBtn}  ${styles.userControl}`}
+                              title="Delete"
+                              aria-label="Delete"
                             >
                               <DeleteIcon />
                             </button>
                           </div>
                         )}
                       </div>
-                      <p className={styles.post}>{post.text}</p>
+                      <p data-testid="post" className={styles.post}>
+                        {post.text}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -203,14 +178,12 @@ export function Board() {
             <h3 className={styles.boardTitle}>{board.name}</h3>
             <h4 className={styles.boardOwner}>OWNER</h4>
             <div className={`${styles.userCard} ${styles.userCard__owner}`}>
-              <CircleImage src={board.creator.pfp} dimensions={50} />
-              <p className={styles.userCard__username}>
-                {board.creator.username}
-              </p>
+              <CircleImage src={creator.pfp} dimensions={50} />
+              <p className={styles.userCard__username}>{creator.username}</p>
             </div>
           </div>
           {board.members
-            .filter((el) => el.id !== board.creator.id)
+            .filter((el) => el.id !== board.creator_id)
             .map((el) => (
               <div className={styles.userCard} key={el.id}>
                 <CircleImage src={el.pfp} dimensions={50} />
@@ -219,6 +192,13 @@ export function Board() {
             ))}
         </section>
       </div>
+      {showBoardSettings && (
+        <BoardSettings
+          toggleModalOff={toggleBoardSettings}
+          userIsCreator={user.id === creator.id}
+          boardData={boardSettings}
+        />
+      )}
     </>
   );
 }

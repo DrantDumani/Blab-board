@@ -4,7 +4,7 @@ import { Layout } from "../pages/Layout/Layout";
 import { Board } from "../pages/Board/Board";
 import { Dashboard } from "../pages/Dashboard/Dashboard";
 import { authAction, dashBoardAction } from "../utils/actions";
-import { fetchPublicBoards } from "../utils/loaders";
+import { fetchPublicBoards, fetchAllBoardInfo } from "../utils/loaders";
 
 export const routes = [
   {
@@ -45,6 +45,7 @@ export const routes = [
       {
         element: <Board />,
         path: ":board_id",
+        loader: fetchAllBoardInfo,
       },
     ],
   },

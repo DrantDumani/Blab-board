@@ -36,7 +36,7 @@ describe("Dashboard page", () => {
     const router = createMemoryRouter(mockRoute);
     render(<RouterProvider router={router} />);
 
-    const boardImgs = await screen.findAllByRole("img");
+    const boardImgs = await screen.findAllByRole("presentation");
     expect(boardImgs[0].getAttribute("src")).toMatch(/notFound.png/);
   });
 
@@ -44,7 +44,7 @@ describe("Dashboard page", () => {
     const router = createMemoryRouter(mockRoute);
     render(<RouterProvider router={router} />);
 
-    const boardImgs = await screen.findAllByRole("img");
+    const boardImgs = await screen.findAllByRole("presentation");
     expect(boardImgs[1].getAttribute("src")).toBe(mockData[1].imgurl);
   });
 
