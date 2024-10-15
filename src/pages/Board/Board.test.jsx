@@ -67,14 +67,6 @@ vi.mock(import("react-router-dom"), async (importOriginal) => {
   };
 });
 
-vi.mock("../../components/BoardSettings/BoardSettings", () => ({
-  BoardSettings: () => (
-    <div>
-      <h2>Board Settings</h2>
-    </div>
-  ),
-}));
-
 describe("Board page", () => {
   it("Displays settings button for public boards", async () => {
     const mockRoute = [
@@ -207,5 +199,26 @@ describe("Board page", () => {
         name: "Delete",
       })
     ).not.toBeNull();
+  });
+
+  it("Pressing the image button opens a form for uploading images", async () => {
+    const mockRoute = [
+      {
+        path: "/",
+        element: <Board />,
+        loader: async () => mockData,
+      },
+    ];
+    const router = createMemoryRouter(mockRoute);
+    render(<RouterProvider router={router} />);
+
+    const user = userEvent.setup();
+    const imageBtn = await screen.findByRole("button", { name: "Image" });
+    expect(screen.queryByLabelText("Image:")).toBeNull();
+    expect(screen.queryByRole("button", { name: "Upload" })).toBeNull();
+
+    await user.click(imageBtn);
+    expect(screen.getByLabelText("Image:")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Upload" })).toBeInTheDocument();
   });
 });

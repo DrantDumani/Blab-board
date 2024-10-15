@@ -7,6 +7,7 @@ import MessageIcon from "../../assets/icons/message-square-svgrepo-com.svg?react
 import { CircleImage } from "../../components/CircleImage/CircleImage";
 import { BoardSettings } from "../../components/BoardSettings/BoardSettings";
 import { PostList } from "../../components/PostList/PostList";
+import { ImageForm } from "../../components/ImageForm/ImageForm";
 import { useState } from "react";
 import { useOutletContext, useLoaderData } from "react-router-dom";
 
@@ -16,11 +17,13 @@ export function Board() {
   const [labelTransform, setLabelTransform] = useState(false);
   const [isMessage, setIsMessage] = useState(false);
   const [showBoardSettings, setShowBoardSettings] = useState(false);
+  const [showImageForm, setShowImageForm] = useState(false);
   const board = useLoaderData();
   const creator = board.members.find((m) => m.id === board.creator_id);
 
   const toggleShowMembers = () => setShowMembers((t) => !t);
   const toggleBoardSettings = () => setShowBoardSettings((t) => !t);
+  const toggleImageForm = () => setShowImageForm((t) => !t);
   const handleInputChange = (e) => {
     setIsMessage(!!e.target.value);
   };
@@ -77,29 +80,32 @@ export function Board() {
               title="Image"
               aria-label="Image"
               className={`${styles.svgBtn} ${styles.postOptions__postControls}`}
+              onClick={toggleImageForm}
             >
               <ImageIcon />
             </button>
-            {/* Wrap input and button in a form */}
-            <label className={styles.postOptions__label}>
-              <span
-                className={`${styles.postOptions__labelText} 
-              ${
-                (labelTransform || isMessage) &&
-                styles.postOptions__labelTextSmall
-              }`}
-              >
-                Post a message
-              </span>
-              <input
-                required
-                maxLength={500}
-                className={styles.postOptions__postInput}
-                onChange={handleInputChange}
-                onFocus={() => setLabelTransform(true)}
-                onBlur={() => setLabelTransform(false)}
-              />
-            </label>
+
+            <form className={styles.postOptions__form}>
+              <label className={styles.postOptions__label}>
+                <span
+                  className={`${styles.postOptions__labelText}
+                ${
+                  (labelTransform || isMessage) &&
+                  styles.postOptions__labelTextSmall
+                }`}
+                >
+                  Post a message
+                </span>
+                <input
+                  required
+                  maxLength={500}
+                  className={styles.postOptions__postInput}
+                  onChange={handleInputChange}
+                  onFocus={() => setLabelTransform(true)}
+                  onBlur={() => setLabelTransform(false)}
+                />
+              </label>
+            </form>
             <button
               title="Send"
               aria-label="Send"
@@ -140,6 +146,7 @@ export function Board() {
           boardData={boardSettings}
         />
       )}
+      {showImageForm && <ImageForm toggleModalOff={toggleImageForm} />}
     </>
   );
 }

@@ -66,6 +66,10 @@
   }
 }
 
+.postOptions__form {
+  width: 100%;
+}
+
 .postOptions__labelText {
   position: absolute;
   left: 8px;

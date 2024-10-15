@@ -1,0 +1,30 @@
+.imgForm {
+  composes: modalContent from "../../styles/styles.css";
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+}
+
+.imgForm__fieldset {
+  border: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  width: 100%;
+}
+
+.imgForm__legend {
+  font-size: 2rem;
+  margin: 0 auto;
+}
+
+.imgForm__submit {
+  composes: btn from "../../styles/styles.css";
+  background-color: #5eff60;
+
+  &:hover {
+    background-color: #9fffa1;
+  }
+}
