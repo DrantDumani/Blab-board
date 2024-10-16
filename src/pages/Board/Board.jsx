@@ -8,17 +8,24 @@ import { CircleImage } from "../../components/CircleImage/CircleImage";
 import { BoardSettings } from "../../components/BoardSettings/BoardSettings";
 import { PostList } from "../../components/PostList/PostList";
 import { ImageForm } from "../../components/ImageForm/ImageForm";
-import { useState } from "react";
-import { useOutletContext, useLoaderData } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import { useOutletContext, useLoaderData, useParams } from "react-router-dom";
+import { socket } from "../../socket";
+import { handleData } from "../../utils/handleData";
 
 export function Board() {
   const user = useOutletContext();
+  const board = useLoaderData();
+  const { board_id } = useParams();
+  const [postList, setPostList] = useState(board.posts);
   const [showMembers, setShowMembers] = useState(false);
   const [labelTransform, setLabelTransform] = useState(false);
   const [isMessage, setIsMessage] = useState(false);
   const [showBoardSettings, setShowBoardSettings] = useState(false);
   const [showImageForm, setShowImageForm] = useState(false);
-  const board = useLoaderData();
+  const textPostRef = useRef();
+  const postListRef = useRef();
+
   const creator = board.members.find((m) => m.id === board.creator_id);
 
   const toggleShowMembers = () => setShowMembers((t) => !t);
@@ -36,6 +43,35 @@ export function Board() {
     img_id: board.img_id,
     created_at: board.created_at,
   };
+
+  const handleTextPostSubmit = async (e) => {
+    e.preventDefault();
+    const inputObj = { text: textPostRef.current.value };
+    textPostRef.current.value = "";
+    await handleData(`posts/${board_id}`, inputObj, "POST");
+  };
+
+  useEffect(() => {
+    socket.connect();
+
+    const onBoardMsg = (postObj) => {
+      const { post, author } = postObj;
+      post.author = author;
+      setPostList((prev) => [...prev, post]);
+    };
+
+    socket.emit("joinRoom", board_id);
+    socket.on("boardMsg", onBoardMsg);
+
+    return () => {
+      socket.off("boardMsg", onBoardMsg);
+      socket.disconnect();
+    };
+  }, [board_id]);
+
+  useEffect(() => {
+    postListRef.current.scrollTop = postListRef.current.scrollHeight;
+  }, [postList]);
 
   return (
     <>
@@ -72,8 +108,8 @@ export function Board() {
         )}
       </div>
       <div className={styles.board_member_wrapper}>
-        <section className={styles.boardWrapper}>
-          <PostList posts={board.posts} userId={Number(user.id)} />
+        <section ref={postListRef} className={styles.boardWrapper}>
+          <PostList posts={postList} userId={Number(user.id)} />
           <div className={styles.postOptions}>
             {/* Opens a form for posting images */}
             <button
@@ -85,7 +121,10 @@ export function Board() {
               <ImageIcon />
             </button>
 
-            <form className={styles.postOptions__form}>
+            <form
+              onSubmit={handleTextPostSubmit}
+              className={styles.postOptions__form}
+            >
               <label className={styles.postOptions__label}>
                 <span
                   className={`${styles.postOptions__labelText}
@@ -97,6 +136,7 @@ export function Board() {
                   Post a message
                 </span>
                 <input
+                  ref={textPostRef}
                   required
                   maxLength={500}
                   className={styles.postOptions__postInput}
@@ -105,14 +145,15 @@ export function Board() {
                   onBlur={() => setLabelTransform(false)}
                 />
               </label>
+
+              <button
+                title="Send"
+                aria-label="Send"
+                className={`${styles.svgBtn} ${styles.postOptions__postControls}`}
+              >
+                <SendIcon />
+              </button>
             </form>
-            <button
-              title="Send"
-              aria-label="Send"
-              className={`${styles.svgBtn} ${styles.postOptions__postControls}`}
-            >
-              <SendIcon />
-            </button>
           </div>
         </section>
 

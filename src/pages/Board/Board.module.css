@@ -68,6 +68,8 @@
 
 .postOptions__form {
   width: 100%;
+  display: flex;
+  gap: 0.8rem;
 }
 
 .postOptions__labelText {

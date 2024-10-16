@@ -72,7 +72,7 @@ PostList.propTypes = {
     PropTypes.shape({
       id: PropTypes.number,
       text: PropTypes.string,
-      timestamp: PropTypes.number,
+      timestamp: PropTypes.string,
       author: PropTypes.objectOf(PropTypes.string),
     })
   ),

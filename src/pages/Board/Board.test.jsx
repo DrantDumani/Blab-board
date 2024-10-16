@@ -23,7 +23,7 @@ const mockData = {
     {
       id: 1,
       text: "Bunnies",
-      timestamp: 2000000000,
+      timestamp: new Date(2000000000),
       is_edited: true,
       author_id: 1,
       type: "text",
@@ -35,7 +35,7 @@ const mockData = {
     {
       id: 2,
       text: "professor.png",
-      timestamp: 3000000000,
+      timestamp: new Date(3000000000),
       is_edited: false,
       author_id: 3,
       type: "image",
@@ -47,7 +47,7 @@ const mockData = {
     {
       id: 3,
       text: "Violence",
-      timestamp: 4000000000,
+      timestamp: new Date(4000000000),
       is_edited: false,
       author_id: 2,
       type: "text",
