@@ -23,6 +23,7 @@ export function Board() {
   const [isMessage, setIsMessage] = useState(false);
   const [showBoardSettings, setShowBoardSettings] = useState(false);
   const [showImageForm, setShowImageForm] = useState(false);
+  const [editMsgId, setEditMsgId] = useState(NaN);
   const textPostRef = useRef();
   const postListRef = useRef();
 
@@ -31,6 +32,7 @@ export function Board() {
   const toggleShowMembers = () => setShowMembers((t) => !t);
   const toggleBoardSettings = () => setShowBoardSettings((t) => !t);
   const toggleImageForm = () => setShowImageForm((t) => !t);
+  const toggleEditMsgId = (num) => setEditMsgId(num);
   const handleInputChange = (e) => {
     setIsMessage(!!e.target.value);
   };
@@ -48,16 +50,52 @@ export function Board() {
     e.preventDefault();
     const inputObj = { text: textPostRef.current.value };
     textPostRef.current.value = "";
+    setLabelTransform(false);
+    setIsMessage(false);
     await handleData(`posts/${board_id}`, inputObj, "POST");
+  };
+
+  const handlePostEdit = async (value) => {
+    const inputObj = { text: value };
+    const endPoint = `posts/${editMsgId}`;
+    setEditMsgId(NaN);
+    await handleData(endPoint, inputObj, "PUT");
+  };
+
+  const handlePostDelete = async (postId) => {
+    const endPoint = `posts/${postId}`;
+    await handleData(endPoint, undefined, "DELETE");
+  };
+
+  const handleImagePostSubmit = async (e, value) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("postImg", value);
+
+    setShowImageForm(false);
+    await handleData(
+      `posts/image/${board_id}`,
+      formData,
+      "POST",
+      "multipart/form-data"
+    );
   };
 
   useEffect(() => {
     socket.connect();
 
-    const onBoardMsg = (postObj) => {
+    const onBoardMsg = (postObj, actionStr) => {
       const { post, author } = postObj;
       post.author = author;
-      setPostList((prev) => [...prev, post]);
+      if (actionStr === "create") {
+        setPostList((prev) => [...prev, post]);
+      } else if (actionStr === "edit") {
+        setPostList((prev) => {
+          return prev.map((el) => (el.id === post.id ? post : el));
+        });
+      } else if (actionStr === "delete") {
+        setPostList((prev) => prev.filter((el) => el.id !== post.id));
+      }
     };
 
     socket.emit("joinRoom", board_id);
@@ -109,7 +147,14 @@ export function Board() {
       </div>
       <div className={styles.board_member_wrapper}>
         <section ref={postListRef} className={styles.boardWrapper}>
-          <PostList posts={postList} userId={Number(user.id)} />
+          <PostList
+            editId={editMsgId}
+            posts={postList}
+            userId={Number(user.id)}
+            toggleEditMsgId={toggleEditMsgId}
+            handlePostEdit={handlePostEdit}
+            handlePostDelete={handlePostDelete}
+          />
           <div className={styles.postOptions}>
             {/* Opens a form for posting images */}
             <button
@@ -187,7 +232,13 @@ export function Board() {
           boardData={boardSettings}
         />
       )}
-      {showImageForm && <ImageForm toggleModalOff={toggleImageForm} />}
+      {showImageForm && (
+        <ImageForm
+          handleSubmit={handleImagePostSubmit}
+          board_id={board_id}
+          toggleModalOff={toggleImageForm}
+        />
+      )}
     </>
   );
 }

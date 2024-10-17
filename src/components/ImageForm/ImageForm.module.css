@@ -27,4 +27,9 @@
   &:hover {
     background-color: #9fffa1;
   }
+
+  &:disabled {
+    background-color: #737373;
+    color: #000;
+  }
 }

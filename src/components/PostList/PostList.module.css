@@ -33,6 +33,12 @@
   font-size: 0.8rem;
 }
 
+.postHeader__editReminder {
+  font-weight: 400;
+  font-size: 0.6875rem;
+  font-style: italic;
+}
+
 .postFlex__userControls {
   margin-left: auto;
   display: flex;
@@ -61,6 +67,36 @@
 .post {
   font-size: 1.125rem;
   line-height: 1.2;
+}
+
+.postImg {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.editWrapper {
+  position: relative;
+}
+
+.editWrapper__labelText {
+  position: absolute;
+  background-color: #0b0b0b;
+  top: -10px;
+  left: 5px;
+  font-size: 12px;
+}
+
+.editWrapper__textarea {
+  color: inherit;
+  background-color: inherit;
+  width: 100%;
+  padding: 0.6rem 0.5rem 0.2rem;
+  resize: none;
+  font-family: inherit;
+  border-radius: 8px;
+  overflow-y: hidden;
 }
 
 @media (min-width: 768px) {

@@ -175,7 +175,7 @@ describe("Board page", () => {
 
     const dates = await screen.findAllByTestId("date");
     expect(dates.length).toBe(3);
-    expect(dates[0].textContent).toMatch(/^\d{2}\/\d{2}\/\d{4} \d{2}:\d{2}$/);
+    expect(dates[0].textContent).toMatch(/^\d{2}\/\d{2}\/\d{4} \d{2}:\d{2}/);
   });
 
   it("Renders edit and delete buttons for posts created by the user", async () => {
@@ -220,5 +220,74 @@ describe("Board page", () => {
     await user.click(imageBtn);
     expect(screen.getByLabelText("Image:")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Upload" })).toBeInTheDocument();
+  });
+
+  it("Opens an edit form when a user clicks on an edit button", async () => {
+    const mockRoute = [
+      {
+        path: "/",
+        element: <Board />,
+        loader: async () => mockData,
+      },
+    ];
+    const router = createMemoryRouter(mockRoute);
+    render(<RouterProvider router={router} />);
+
+    const user = userEvent.setup();
+    const postContainers = await screen.findAllByTestId("postWrapper");
+    const editBtn = within(postContainers[0]).getByRole("button", {
+      name: "Edit",
+    });
+
+    expect(
+      within(postContainers[0]).queryByRole("button", { name: "Save" })
+    ).toBeNull();
+    expect(
+      within(postContainers[0]).queryByRole("button", { name: "Cancel" })
+    ).toBeNull();
+
+    await user.click(editBtn);
+    expect(
+      within(postContainers[0]).getByRole("button", { name: "Save" })
+    ).toBeInTheDocument();
+    expect(
+      within(postContainers[0]).getByRole("button", { name: "Cancel" })
+    ).toBeInTheDocument();
+    expect(
+      within(postContainers[0]).getByLabelText("Edit Message").textContent
+    ).toBe("Bunnies");
+  });
+
+  it("Can close the edit form by clicking the cancel button", async () => {
+    const mockRoute = [
+      {
+        path: "/",
+        element: <Board />,
+        loader: async () => mockData,
+      },
+    ];
+    const router = createMemoryRouter(mockRoute);
+    render(<RouterProvider router={router} />);
+
+    const user = userEvent.setup();
+    const postContainers = await screen.findAllByTestId("postWrapper");
+    const editBtn = within(postContainers[0]).getByRole("button", {
+      name: "Edit",
+    });
+
+    await user.click(editBtn);
+    const cancelBtn = within(postContainers[0]).getByRole("button", {
+      name: "Cancel",
+    });
+    await user.click(cancelBtn);
+    expect(
+      within(postContainers[0]).queryByRole("button", { name: "Cancel" })
+    ).toBeNull();
+    expect(
+      within(postContainers[0]).queryByRole("button", { name: "Save" })
+    ).toBeNull();
+    expect(
+      within(postContainers[0]).queryByLabelText("Edit Message")
+    ).toBeNull();
   });
 });
