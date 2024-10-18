@@ -3,8 +3,12 @@ import { Auth } from "../pages/Auth/Auth";
 import { Layout } from "../pages/Layout/Layout";
 import { Board } from "../pages/Board/Board";
 import { Dashboard } from "../pages/Dashboard/Dashboard";
-import { authAction, dashBoardAction } from "../utils/actions";
-import { fetchPublicBoards, fetchAllBoardInfo } from "../utils/loaders";
+import { authAction, dashBoardAction, boardAction } from "../utils/actions";
+import {
+  fetchPublicBoards,
+  fetchAllBoardInfo,
+  fetchYourBoards,
+} from "../utils/loaders";
 
 export const routes = [
   {
@@ -33,6 +37,7 @@ export const routes = [
         element: <Dashboard />,
         path: "your_boards",
         action: dashBoardAction,
+        loader: fetchYourBoards,
       },
       {
         element: <h1>The settings page</h1>,
@@ -46,6 +51,7 @@ export const routes = [
         element: <Board />,
         path: ":board_id",
         loader: fetchAllBoardInfo,
+        action: boardAction,
       },
     ],
   },

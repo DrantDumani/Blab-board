@@ -34,7 +34,7 @@ export async function dashBoardAction({ request }) {
   const intent = formData.get("intent");
 
   // creating a board
-  if (intent === "create-board") {
+  if (intent === "save-board") {
     const resp = await handleData(
       "boards",
       formData,
@@ -46,6 +46,9 @@ export async function dashBoardAction({ request }) {
       const { newBoard_id } = data;
 
       return redirect(`/dashboard/${newBoard_id}`);
+    } else if (resp.status === 401) {
+      localStorage.removeItem("token");
+      return redirect("/");
     } else throw new Response("Error creating board");
   }
 
@@ -59,8 +62,58 @@ export async function dashBoardAction({ request }) {
       const { board_id } = data;
 
       return redirect(`/dashboard/${board_id}`);
+    } else if (resp.status === 401) {
+      localStorage.removeItem("token");
+      return redirect("/");
     } else if (resp.status === 404) {
       throw new Response("Board not found");
     }
+  }
+}
+
+export async function boardAction({ request, params }) {
+  const formData = await request.formData();
+  const intent = formData.get("intent");
+
+  if (intent === "save-board") {
+    const resp = await handleData(
+      `boards/${params.board_id}`,
+      formData,
+      "PUT",
+      "multipart/form-data"
+    );
+
+    if (resp.ok) {
+      return "Board info successfully updated!";
+    } else if (resp.status === 401) {
+      localStorage.removeItem("token");
+      return redirect("/");
+    } else throw new Response("Unable to edit board");
+  } else if (intent === "delete-board") {
+    const resp = await handleData(
+      `boards/${params.board_id}`,
+      undefined,
+      "DELETE"
+    );
+
+    if (resp.ok) {
+      return redirect("/dashboard");
+    } else if (resp.status === 401) {
+      localStorage.removeItem("token");
+      return redirect("/");
+    } else throw new Response("Unable to delete board");
+  } else if (intent === "leave-board") {
+    const resp = await handleData(
+      `members/${params.board_id}`,
+      undefined,
+      "DELETE"
+    );
+
+    if (resp.ok) {
+      return redirect("/dashboard");
+    } else if (resp.status === 401) {
+      localStorage.removeItem("token");
+      return redirect("/");
+    } else throw new Response("Error completing action");
   }
 }

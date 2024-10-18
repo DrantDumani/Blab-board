@@ -4,7 +4,7 @@ import { FormError } from "../FormError/FormError";
 import { useState } from "react";
 import PropTypes from "prop-types";
 
-export function BoardForm({ defValue = "" }) {
+export function BoardForm({ defValue = "", img_id = "" }) {
   const [fileSize, setFileSize] = useState(0);
   const maxFileSize = 1048576;
 
@@ -15,7 +15,7 @@ export function BoardForm({ defValue = "" }) {
   return (
     <AuthForm
       name={"newBoard"}
-      intent={"create-board"}
+      intent={"save-board"}
       btnText={"Save Board"}
       enctype="multipart/form-data"
       canSubmit={fileSize <= maxFileSize}
@@ -35,6 +35,7 @@ export function BoardForm({ defValue = "" }) {
         isRequired={false}
         onChange={handleChange}
       />
+      {img_id && <input type="hidden" value={img_id} name="img_id" />}
       {fileSize >= maxFileSize && (
         <FormError text="Image size must be 1mb or less" />
       )}
@@ -44,4 +45,5 @@ export function BoardForm({ defValue = "" }) {
 
 BoardForm.propTypes = {
   defValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  img_id: PropTypes.string,
 };

@@ -4,9 +4,12 @@ import PropTypes from "prop-types";
 import styles from "./BoardSettings.module.css";
 import { useState } from "react";
 import { BoardForm } from "../BoardForm/BoardForm";
+import { useFetcher } from "react-router-dom";
 
 export function BoardSettings({ toggleModalOff, boardData, userIsCreator }) {
   const [showOwnerForm, setShowOwnerForm] = useState(false);
+  const boardAdminFetcher = useFetcher();
+  const boardMemberFetcher = useFetcher();
 
   const toggleOwnerForm = () => setShowOwnerForm((t) => !t);
   const originDate = new Date(boardData.created_at);
@@ -28,9 +31,15 @@ export function BoardSettings({ toggleModalOff, boardData, userIsCreator }) {
           </p>
           <div className={styles.btnContainer}>
             {!userIsCreator && (
-              <button className={`${styles.settingsBtn} ${styles.btnRed}`}>
-                Leave Board
-              </button>
+              <boardMemberFetcher.Form method="DELETE">
+                <button
+                  name="intent"
+                  value="leave-board"
+                  className={`${styles.settingsBtn} ${styles.btnRed}`}
+                >
+                  Leave Board
+                </button>
+              </boardMemberFetcher.Form>
             )}
             {userIsCreator && (
               <>
@@ -40,15 +49,21 @@ export function BoardSettings({ toggleModalOff, boardData, userIsCreator }) {
                 >
                   Edit Board
                 </button>
-                <button className={`${styles.settingsBtn} ${styles.btnRed}`}>
-                  Delete Board
-                </button>
+                <boardAdminFetcher.Form method="DELETE">
+                  <button
+                    name="intent"
+                    value="delete-board"
+                    className={`${styles.settingsBtn} ${styles.btnRed}`}
+                  >
+                    Delete Board
+                  </button>
+                </boardAdminFetcher.Form>
               </>
             )}
           </div>
         </div>
       ) : (
-        <BoardForm defValue={boardData.name} />
+        <BoardForm defValue={boardData.name} img_id={boardData.img_id} />
       )}
     </ModalWrapper>
   );
@@ -56,4 +71,6 @@ export function BoardSettings({ toggleModalOff, boardData, userIsCreator }) {
 
 BoardSettings.propTypes = {
   toggleModalOff: PropTypes.func,
+  boardData: PropTypes.object,
+  userIsCreator: PropTypes.bool,
 };

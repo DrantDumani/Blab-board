@@ -13,6 +13,18 @@ export async function fetchPublicBoards() {
   } else throw new Response("Error completing request");
 }
 
+export async function fetchYourBoards() {
+  const resp = await handleData("boards/isMember");
+
+  if (resp.ok) {
+    const boardArr = await resp.json();
+    return boardArr;
+  } else if (resp.status === 401) {
+    localStorage.removeItem("token");
+    return redirect("/");
+  } else throw new Response("Error completing request");
+}
+
 export async function fetchAllBoardInfo({ params }) {
   const resp = await handleData(`boards/${params.board_id}`);
 
