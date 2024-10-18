@@ -9,6 +9,7 @@ import {
   fetchAllBoardInfo,
   fetchYourBoards,
 } from "../utils/loaders";
+import { Settings } from "../pages/Settings/Settings";
 
 export const routes = [
   {
@@ -40,7 +41,7 @@ export const routes = [
         loader: fetchYourBoards,
       },
       {
-        element: <h1>The settings page</h1>,
+        element: <Settings />,
         path: "settings",
       },
       {
