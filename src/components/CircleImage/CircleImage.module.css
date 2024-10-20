@@ -3,3 +3,7 @@
   object-fit: cover;
   border-radius: 50%;
 }
+
+.isOnline {
+  border: 3px solid #11d411;
+}

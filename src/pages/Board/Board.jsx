@@ -14,7 +14,7 @@ import { socket } from "../../socket";
 import { handleData } from "../../utils/handleData";
 
 export function Board() {
-  const user = useOutletContext();
+  const [user] = useOutletContext();
   const board = useLoaderData();
   const { board_id } = useParams();
   const [postList, setPostList] = useState(board.posts);
@@ -24,10 +24,12 @@ export function Board() {
   const [showBoardSettings, setShowBoardSettings] = useState(false);
   const [showImageForm, setShowImageForm] = useState(false);
   const [editMsgId, setEditMsgId] = useState(NaN);
+  const [usersOnline, setUsersOnline] = useState({});
+  const [members, setMembers] = useState(board.members);
   const textPostRef = useRef();
   const postListRef = useRef();
 
-  const creator = board.members.find((m) => m.id === board.creator_id);
+  const creator = members.find((m) => m.id === board.creator_id);
 
   const toggleShowMembers = () => setShowMembers((t) => !t);
   const toggleBoardSettings = () => setShowBoardSettings((t) => !t);
@@ -98,14 +100,44 @@ export function Board() {
       }
     };
 
-    socket.emit("joinRoom", board_id);
+    const onBoardMember = (userObj, actionStr) => {
+      if (actionStr === "join") {
+        setMembers((prev) =>
+          [...prev, userObj].sort((a, b) => {
+            return a.username < b.username ? -1 : 1;
+          })
+        );
+      } else if (actionStr === "leave") {
+        setMembers((prev) => prev.filter((u) => u.id !== userObj.id));
+      }
+    };
+
+    const onRoomEnter = (userList) => {
+      setUsersOnline(userList);
+    };
+
+    const onRoomLeave = (userId) => {
+      setUsersOnline((prev) => {
+        const newObj = { ...prev };
+        delete newObj[userId];
+        return newObj;
+      });
+    };
+
+    socket.emit("joinRoom", { roomId: board_id, userId: user.id });
     socket.on("boardMsg", onBoardMsg);
+    socket.on("usersOnline", onRoomEnter);
+    socket.on("boardMember", onBoardMember);
+    socket.on("userWentOffline", onRoomLeave);
 
     return () => {
       socket.off("boardMsg", onBoardMsg);
+      socket.off("usersOnline", onRoomEnter);
+      socket.off("userWentOffline", onRoomLeave);
+      socket.off("boardMember", onBoardMember);
       socket.disconnect();
     };
-  }, [board_id]);
+  }, [board_id, user.id]);
 
   useEffect(() => {
     postListRef.current.scrollTop = postListRef.current.scrollHeight;
@@ -211,15 +243,23 @@ export function Board() {
             <h3 className={styles.boardTitle}>{board.name}</h3>
             <h4 className={styles.boardOwner}>OWNER</h4>
             <div className={`${styles.userCard} ${styles.userCard__owner}`}>
-              <CircleImage src={creator.pfp} dimensions={50} />
+              <CircleImage
+                src={creator.pfp}
+                dimensions={50}
+                isOnline={!!usersOnline[creator.id]}
+              />
               <p className={styles.userCard__username}>{creator.username}</p>
             </div>
           </div>
-          {board.members
+          {members
             .filter((el) => el.id !== board.creator_id)
             .map((el) => (
               <div className={styles.userCard} key={el.id}>
-                <CircleImage src={el.pfp} dimensions={50} />
+                <CircleImage
+                  src={el.pfp}
+                  dimensions={50}
+                  isOnline={!!usersOnline[el.id]}
+                />
                 <p className={styles.userCard__username}>{el.username}</p>
               </div>
             ))}

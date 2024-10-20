@@ -1,7 +1,7 @@
 import styles from "./CircleImage.module.css";
 import PropTypes from "prop-types";
 
-export function CircleImage({ src, dimensions }) {
+export function CircleImage({ src, dimensions, isOnline = false }) {
   const notFoundImg =
     (import.meta.env.MODE !== "production"
       ? "http://localhost:3000/"
@@ -9,7 +9,7 @@ export function CircleImage({ src, dimensions }) {
 
   return (
     <img
-      className={styles.circleImage}
+      className={`${styles.circleImage} ${isOnline ? styles.isOnline : ""}`}
       src={src || notFoundImg}
       height={dimensions}
       width={dimensions}
@@ -21,4 +21,5 @@ export function CircleImage({ src, dimensions }) {
 CircleImage.propTypes = {
   src: PropTypes.string,
   dimensions: PropTypes.number,
+  isOnline: PropTypes.bool,
 };

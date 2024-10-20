@@ -7,6 +7,7 @@ import { createMemoryRouter, RouterProvider } from "react-router-dom";
 const user = {
   username: "Bubbles",
   id: 1,
+  pfp: "",
 };
 
 const mockData = {
@@ -63,7 +64,7 @@ vi.mock(import("react-router-dom"), async (importOriginal) => {
   const actual = await importOriginal();
   return {
     ...actual,
-    useOutletContext: () => user,
+    useOutletContext: () => [user, () => {}],
   };
 });
 
