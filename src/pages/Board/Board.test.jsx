@@ -19,6 +19,16 @@ const mockData = {
       username: "Bubbles",
       id: 1,
     },
+    {
+      pfp: "",
+      username: "Blossom",
+      id: 2,
+    },
+    {
+      pfp: "",
+      username: "Buttercup",
+      id: 3,
+    },
   ],
   posts: [
     {
@@ -67,6 +77,17 @@ vi.mock(import("react-router-dom"), async (importOriginal) => {
     useOutletContext: () => [user, () => {}],
   };
 });
+
+// The socket callbacks will not be tested
+vi.mock("../../socket", () => ({
+  socket: {
+    emit: () => {},
+    on: () => {},
+    connect: () => {},
+    off: () => {},
+    disconnect: () => {},
+  },
+}));
 
 describe("Board page", () => {
   it("Displays settings button for public boards", async () => {
@@ -290,5 +311,27 @@ describe("Board page", () => {
     expect(
       within(postContainers[0]).queryByLabelText("Edit Message")
     ).toBeNull();
+  });
+
+  it("Renders a button for each board member", async () => {
+    const mockRoute = [
+      {
+        path: "/",
+        element: <Board />,
+        loader: async () => mockData,
+      },
+    ];
+    const router = createMemoryRouter(mockRoute);
+    render(<RouterProvider router={router} />);
+
+    expect(
+      await screen.findByRole("button", { name: "Bubbles" })
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByRole("button", { name: "Blossom" })
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByRole("button", { name: "Buttercup" })
+    ).toBeInTheDocument();
   });
 });

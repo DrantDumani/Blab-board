@@ -15,6 +15,7 @@
   display: flex;
   flex-direction: column;
   gap: 1.8rem;
+  min-height: 100%;
   padding-top: var(--top-section-pad);
 }
 
@@ -32,6 +33,18 @@
 .userCard {
   composes: post_user_card from "../../styles/styles.css";
   margin-bottom: 1.8rem;
+
+  width: 100%;
+  background-color: inherit;
+  color: inherit;
+  border: none;
+  border-radius: 4px;
+  padding: 0.4rem;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #525151;
+  }
 }
 
 .memberHeader {
@@ -100,6 +113,7 @@
   position: absolute;
   background-color: #0b0b0b;
   width: 100%;
+  min-height: 100%;
   left: -100vw;
   transition: left 0.4s ease-in;
   padding-top: var(--top-section-pad);
@@ -114,8 +128,7 @@
 }
 
 .userCard__owner {
-  padding-bottom: 1rem;
-  margin-bottom: 0;
+  margin-bottom: 1.8rem;
 }
 
 .userCard__username {
@@ -125,18 +138,22 @@
 
 @media (min-width: 768px) {
   .memberWrapper {
-    flex-basis: 20%;
+    flex-basis: 45%;
     position: static;
   }
 
-  .boardTitle,
-  .boardOwner,
   .userCard {
+    margin-left: 1.2rem;
+    width: 90%;
+  }
+
+  .boardTitle,
+  .boardOwner {
     padding-left: 1.2rem;
   }
 
   .boardWrapper {
-    flex-basis: 80%;
+    flex-basis: 55%;
     border-right: borderRules;
   }
 
@@ -157,5 +174,15 @@
 
   .mobileOnly {
     display: none;
+  }
+}
+
+@media (min-width: 1280px) {
+  .boardWrapper {
+    flex-basis: 75%;
+  }
+
+  .memberWrapper {
+    flex-basis: 25%;
   }
 }

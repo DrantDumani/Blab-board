@@ -242,26 +242,28 @@ export function Board() {
           <div className={styles.memberHeader}>
             <h3 className={styles.boardTitle}>{board.name}</h3>
             <h4 className={styles.boardOwner}>OWNER</h4>
-            <div className={`${styles.userCard} ${styles.userCard__owner}`}>
+            <button className={`${styles.userCard} ${styles.userCard__owner}`}>
               <CircleImage
                 src={creator.pfp}
                 dimensions={50}
                 isOnline={!!usersOnline[creator.id]}
               />
-              <p className={styles.userCard__username}>{creator.username}</p>
-            </div>
+              <span className={styles.userCard__username}>
+                {creator.username}
+              </span>
+            </button>
           </div>
           {members
             .filter((el) => el.id !== board.creator_id)
             .map((el) => (
-              <div className={styles.userCard} key={el.id}>
+              <button className={styles.userCard} key={el.id}>
                 <CircleImage
                   src={el.pfp}
                   dimensions={50}
                   isOnline={!!usersOnline[el.id]}
                 />
-                <p className={styles.userCard__username}>{el.username}</p>
-              </div>
+                <span className={styles.userCard__username}>{el.username}</span>
+              </button>
             ))}
         </section>
       </div>
