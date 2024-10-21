@@ -8,6 +8,8 @@ import { CircleImage } from "../../components/CircleImage/CircleImage";
 import { BoardSettings } from "../../components/BoardSettings/BoardSettings";
 import { PostList } from "../../components/PostList/PostList";
 import { ImageForm } from "../../components/ImageForm/ImageForm";
+import { FriendModal } from "../../components/FriendModal/FriendModal";
+import { Loading } from "../../components/Loading/Loading";
 import { useState, useEffect, useRef } from "react";
 import { useOutletContext, useLoaderData, useParams } from "react-router-dom";
 import { socket } from "../../socket";
@@ -23,9 +25,12 @@ export function Board() {
   const [isMessage, setIsMessage] = useState(false);
   const [showBoardSettings, setShowBoardSettings] = useState(false);
   const [showImageForm, setShowImageForm] = useState(false);
+  const [showMemberInfo, setShowMemberInfo] = useState(false);
   const [editMsgId, setEditMsgId] = useState(NaN);
   const [usersOnline, setUsersOnline] = useState({});
   const [members, setMembers] = useState(board.members);
+  const [isLoading, setIsLoading] = useState(false);
+  const [currentMember, setCurrentMember] = useState({});
   const textPostRef = useRef();
   const postListRef = useRef();
 
@@ -34,6 +39,7 @@ export function Board() {
   const toggleShowMembers = () => setShowMembers((t) => !t);
   const toggleBoardSettings = () => setShowBoardSettings((t) => !t);
   const toggleImageForm = () => setShowImageForm((t) => !t);
+  const toggleShowMemberInfo = () => setShowMemberInfo((t) => !t);
   const toggleEditMsgId = (num) => setEditMsgId(num);
   const handleInputChange = (e) => {
     setIsMessage(!!e.target.value);
@@ -81,6 +87,93 @@ export function Board() {
       "POST",
       "multipart/form-data"
     );
+  };
+
+  const handleGetMemberInfo = async (memberId) => {
+    setIsLoading(true);
+    const resp = await handleData(`users/${memberId}`);
+    if (resp.ok) {
+      const data = await resp.json();
+      setCurrentMember(data);
+      setShowMemberInfo(true);
+    }
+    setIsLoading(false);
+  };
+
+  const sendFriendRequest = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    const resp = await handleData(
+      `friends/${currentMember.id}`,
+      undefined,
+      "POST"
+    );
+    if (resp.ok) {
+      const data = await resp.json();
+      if (user.id > currentMember.id) {
+        setCurrentMember((prev) => ({
+          ...prev,
+          friend_id: [{ status: data.status }],
+        }));
+      } else {
+        setCurrentMember((prev) => ({
+          ...prev,
+          friends: [{ status: data.status }],
+        }));
+      }
+    }
+    setIsLoading(false);
+  };
+
+  const acceptFriendReq = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    const resp = await handleData(
+      `friends/${currentMember.id}`,
+      undefined,
+      "PUT"
+    );
+    if (resp.ok) {
+      const data = await resp.json();
+      if (user.id > currentMember.id) {
+        setCurrentMember((prev) => ({
+          ...prev,
+          friend_id: [{ status: data.status, board_id: data.board_id }],
+        }));
+      } else {
+        setCurrentMember((prev) => ({
+          ...prev,
+          friends: [{ status: data.status, board_id: data.board_id }],
+        }));
+      }
+    }
+    setIsLoading(false);
+  };
+
+  const deleteFriend = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    const resp = await handleData(
+      `friends/${currentMember.id}`,
+      undefined,
+      "DELETE"
+    );
+    if (resp.ok) {
+      const data = await resp.json();
+      console.log(data);
+      if (user.id > currentMember.id) {
+        setCurrentMember((prev) => ({
+          ...prev,
+          friend_id: [],
+        }));
+      } else {
+        setCurrentMember((prev) => ({
+          ...prev,
+          friends: [],
+        }));
+      }
+    }
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -140,8 +233,26 @@ export function Board() {
   }, [board_id, user.id]);
 
   useEffect(() => {
-    postListRef.current.scrollTop = postListRef.current.scrollHeight;
+    postListRef.current.scrollTo(0, postListRef.current.scrollHeight);
   }, [postList]);
+
+  useEffect(() => {
+    window.scrollTo(0, postListRef.current.scrollHeight);
+  });
+
+  useEffect(() => {
+    setPostList(board.posts);
+    setShowMembers(false);
+    setLabelTransform(false);
+    setIsMessage(false);
+    setShowBoardSettings(false);
+    setShowImageForm(false);
+    setShowMemberInfo(false);
+    setEditMsgId(NaN);
+    setUsersOnline({});
+    setMembers(board.members);
+    setCurrentMember({});
+  }, [board]);
 
   return (
     <>
@@ -242,7 +353,10 @@ export function Board() {
           <div className={styles.memberHeader}>
             <h3 className={styles.boardTitle}>{board.name}</h3>
             <h4 className={styles.boardOwner}>OWNER</h4>
-            <button className={`${styles.userCard} ${styles.userCard__owner}`}>
+            <button
+              onClick={() => handleGetMemberInfo(creator.id)}
+              className={`${styles.userCard} ${styles.userCard__owner}`}
+            >
               <CircleImage
                 src={creator.pfp}
                 dimensions={50}
@@ -256,7 +370,11 @@ export function Board() {
           {members
             .filter((el) => el.id !== board.creator_id)
             .map((el) => (
-              <button className={styles.userCard} key={el.id}>
+              <button
+                onClick={() => handleGetMemberInfo(el.id)}
+                className={styles.userCard}
+                key={el.id}
+              >
                 <CircleImage
                   src={el.pfp}
                   dimensions={50}
@@ -281,6 +399,17 @@ export function Board() {
           toggleModalOff={toggleImageForm}
         />
       )}
+      {showMemberInfo && (
+        <FriendModal
+          toggleModalOff={toggleShowMemberInfo}
+          sendFriendRequest={sendFriendRequest}
+          acceptFriendReq={acceptFriendReq}
+          deleteFriend={deleteFriend}
+          userId={user.id}
+          member={currentMember}
+        />
+      )}
+      {isLoading && <Loading />}
     </>
   );
 }

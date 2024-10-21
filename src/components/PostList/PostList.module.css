@@ -29,6 +29,7 @@
 }
 
 .postHeader__bold {
+  word-break: break-all;
   font-weight: 700;
   font-size: 0.8rem;
 }
@@ -96,7 +97,7 @@
   resize: none;
   font-family: inherit;
   border-radius: 8px;
-  overflow-y: hidden;
+  overflow-y: scroll;
 }
 
 @media (min-width: 768px) {

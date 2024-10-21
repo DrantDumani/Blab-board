@@ -134,6 +134,7 @@
 .userCard__username {
   align-self: center;
   font-weight: 700;
+  word-break: break-word;
 }
 
 @media (min-width: 768px) {
