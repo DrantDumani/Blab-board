@@ -1,0 +1,82 @@
+.memberWrapper {
+  composes: modalContent from "../../styles/styles.css";
+}
+
+.memberHeader {
+  /* display: flex;
+  gap: 3rem;
+  padding-bottom: 1.5rem; */
+  display: flex;
+  gap: 1rem;
+  padding-bottom: 1.5rem;
+  flex-direction: column;
+  align-items: center;
+}
+
+.memberName {
+  font-size: 2rem;
+  word-break: break-all;
+}
+
+.aboutTitle {
+  font-weight: 700;
+  font-style: italic;
+  padding-bottom: 0.4rem;
+}
+
+.about {
+  line-height: 1.3;
+  padding-bottom: 2rem;
+}
+
+.friendForm {
+  text-align: center;
+}
+
+.submitBtn {
+  composes: btn from "../../styles/styles.css";
+  background-color: #00c807;
+  &:hover {
+    background-color: #4bd650;
+  }
+}
+
+.denyBtn {
+  composes: btn from "../../styles/styles.css";
+  background-color: #ff4a4a;
+  &:hover {
+    background-color: #ff8a8a;
+  }
+}
+
+.reqStatus {
+  text-align: center;
+  font-weight: 700;
+}
+
+.reqStatusYellow {
+  color: #ffff00;
+}
+
+.reqStatusGreen {
+  color: #03be03;
+}
+
+.reqForm {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.linkWrapper {
+  padding-top: 0.8rem;
+  text-align: center;
+}
+
+.dmLink {
+  font-weight: 700;
+  color: #00ffc8;
+  &:hover {
+    color: #7bfff4;
+  }
+}
