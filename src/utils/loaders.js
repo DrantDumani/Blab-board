@@ -36,3 +36,15 @@ export async function fetchAllBoardInfo({ params }) {
     return redirect("/");
   } else throw new Response("Error completing request");
 }
+
+export async function getAllFriends() {
+  const resp = await handleData(`friends`);
+
+  if (resp.ok) {
+    const friends = await resp.json();
+    return friends;
+  } else if (resp.status === 401) {
+    localStorage.removeItem("token");
+    return redirect("/");
+  } else throw new Response("Error completing request");
+}

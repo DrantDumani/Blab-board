@@ -238,7 +238,7 @@ export function Board() {
 
   useEffect(() => {
     window.scrollTo(0, postListRef.current.scrollHeight);
-  });
+  }, []);
 
   useEffect(() => {
     setPostList(board.posts);

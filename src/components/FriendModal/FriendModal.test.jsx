@@ -65,7 +65,7 @@ describe("Friend Modal", () => {
       friends: [
         {
           user_id: 1,
-          status: "pending",
+          status: "pending_2_1",
           board_id: null,
         },
       ],
@@ -85,7 +85,7 @@ describe("Friend Modal", () => {
     expect(
       screen.queryByRole("button", { name: "Friend Request" })
     ).not.toBeInTheDocument();
-    expect(screen.getByText("Friend Request: Pending")).toBeInTheDocument();
+    expect(screen.getByText(/Pending/)).toBeInTheDocument();
   });
 
   it("Displays link to direct message with confirmed friends", () => {
@@ -115,7 +115,7 @@ describe("Friend Modal", () => {
     const router = createMemoryRouter(mockRoute);
     render(<RouterProvider router={router} />);
 
-    expect(screen.getByText("Friend Request: Accepted")).toBeInTheDocument();
+    expect(screen.getByText(/Accepted/)).toBeInTheDocument();
     const dmLink = screen.getByRole("link", { name: "Message" });
     expect(dmLink.href).toMatch(/dashboard\/1/);
   });

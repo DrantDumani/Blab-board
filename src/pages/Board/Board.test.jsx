@@ -89,6 +89,10 @@ vi.mock("../../socket", () => ({
   },
 }));
 
+// jsdom does not support window.scrollTo
+Element.prototype.scrollTo = vi.fn();
+window.scrollTo = vi.fn();
+
 describe("Board page", () => {
   it("Displays settings button for public boards", async () => {
     const mockRoute = [

@@ -1,0 +1,73 @@
+:root {
+  --mob-font-size: 0.875rem;
+  --tab-font-size: 1.125rem;
+}
+
+.friendList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.list_item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.3rem 0.5rem;
+  border-radius: 0.5rem;
+
+  &:hover {
+    background-color: #3c3c3c;
+  }
+}
+
+.username,
+.pStatus {
+  font-weight: 700;
+  font-size: var(--mob-font-size);
+  word-break: break-all;
+}
+
+.pStatus {
+  color: #ffff00;
+}
+
+.pStatus,
+.controlWrapper {
+  margin-left: auto;
+}
+
+.controlWrapper {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.btn,
+.link {
+  composes: svgControls from "../../styles/styles.css";
+  & svg {
+    width: var(--mob-font-size);
+    height: auto;
+  }
+}
+
+.link {
+  & svg {
+    vertical-align: sub;
+  }
+}
+
+@media (min-width: 768px) {
+  .username,
+  .pStatus {
+    font-size: var(--tab-font-size);
+  }
+
+  .btn,
+  .link {
+    & svg {
+      width: 1.375rem;
+    }
+  }
+}

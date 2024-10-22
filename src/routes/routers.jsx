@@ -8,8 +8,10 @@ import {
   fetchPublicBoards,
   fetchAllBoardInfo,
   fetchYourBoards,
+  getAllFriends,
 } from "../utils/loaders";
 import { Settings } from "../pages/Settings/Settings";
+import { Friends } from "../pages/Friends/Friends";
 
 export const routes = [
   {
@@ -45,8 +47,12 @@ export const routes = [
         path: "settings",
       },
       {
-        element: <h1>The friends page</h1>,
+        element: <Friends />,
         path: "friends",
+        loader: getAllFriends,
+        shouldRevalidate: ({ currentUrl }) => {
+          return currentUrl.pathname === "/dashboard/friends";
+        },
       },
       {
         element: <Board />,
