@@ -9,6 +9,7 @@
   flex-direction: column;
   gap: 1.5rem;
   min-height: inherit;
+  composes: responsive from "../../styles/styles.css";
 }
 
 .footer {
