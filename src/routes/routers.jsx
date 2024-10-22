@@ -12,11 +12,13 @@ import {
 import { Settings } from "../pages/Settings/Settings";
 import { Friends } from "../pages/Friends/Friends";
 import { BoardWrapper } from "../pages/BoardWrapper/BoardWrapper";
+import { Error } from "../pages/Error/Error";
 
 export const routes = [
   {
     element: <Root />,
     path: "/",
+    errorElement: <Error />,
   },
   {
     element: <Auth />,
@@ -26,6 +28,7 @@ export const routes = [
   {
     element: <Layout />,
     path: "/dashboard",
+    errorElement: <Error />,
     children: [
       {
         element: <Dashboard />,
