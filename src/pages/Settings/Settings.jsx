@@ -1,4 +1,4 @@
-import { useOutletContext } from "react-router-dom";
+import { useOutletContext, useNavigate } from "react-router-dom";
 import { CircleImage } from "../../components/CircleImage/CircleImage";
 import { useState, useId, useRef } from "react";
 import { InputWrapper } from "../../components/InputWrapper/InputWrapper";
@@ -9,6 +9,7 @@ import { Loading } from "../../components/Loading/Loading";
 
 export function Settings() {
   const [user, updateUser] = useOutletContext();
+  const navigate = useNavigate();
   const [showEdit, setShowEdit] = useState(false);
   const [fileSize, setFileSize] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -43,6 +44,9 @@ export function Settings() {
       updateUser();
       setIsSubmitting(false);
       setShowEdit(false);
+    } else if (resp.status === 401) {
+      localStorage.removeItem("token");
+      navigate("/");
     }
   };
 

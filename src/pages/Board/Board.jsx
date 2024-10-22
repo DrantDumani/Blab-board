@@ -11,7 +11,12 @@ import { ImageForm } from "../../components/ImageForm/ImageForm";
 import { FriendModal } from "../../components/FriendModal/FriendModal";
 import { Loading } from "../../components/Loading/Loading";
 import { useState, useEffect, useRef } from "react";
-import { useOutletContext, useLoaderData, useParams } from "react-router-dom";
+import {
+  useOutletContext,
+  useLoaderData,
+  useParams,
+  useNavigate,
+} from "react-router-dom";
 import { socket } from "../../socket";
 import { handleData } from "../../utils/handleData";
 
@@ -19,6 +24,7 @@ export function Board() {
   const [user] = useOutletContext();
   const board = useLoaderData();
   const { board_id } = useParams();
+  const navigate = useNavigate();
   const [postList, setPostList] = useState(board.posts);
   const [showMembers, setShowMembers] = useState(false);
   const [labelTransform, setLabelTransform] = useState(false);
@@ -60,19 +66,31 @@ export function Board() {
     textPostRef.current.value = "";
     setLabelTransform(false);
     setIsMessage(false);
-    await handleData(`posts/${board_id}`, inputObj, "POST");
+    const resp = await handleData(`posts/${board_id}`, inputObj, "POST");
+    if (resp.status === 401) {
+      localStorage.removeItem("token");
+      navigate("/");
+    }
   };
 
   const handlePostEdit = async (value) => {
     const inputObj = { text: value };
     const endPoint = `posts/${editMsgId}`;
     setEditMsgId(NaN);
-    await handleData(endPoint, inputObj, "PUT");
+    const resp = await handleData(endPoint, inputObj, "PUT");
+    if (resp.status === 401) {
+      localStorage.removeItem("token");
+      navigate("/");
+    }
   };
 
   const handlePostDelete = async (postId) => {
     const endPoint = `posts/${postId}`;
-    await handleData(endPoint, undefined, "DELETE");
+    const resp = await handleData(endPoint, undefined, "DELETE");
+    if (resp.status === 401) {
+      localStorage.removeItem("token");
+      navigate("/");
+    }
   };
 
   const handleImagePostSubmit = async (e, value) => {
@@ -81,12 +99,16 @@ export function Board() {
     formData.append("postImg", value);
 
     setShowImageForm(false);
-    await handleData(
+    const resp = await handleData(
       `posts/image/${board_id}`,
       formData,
       "POST",
       "multipart/form-data"
     );
+    if (resp.status === 401) {
+      localStorage.removeItem("token");
+      navigate("/");
+    }
   };
 
   const handleGetMemberInfo = async (memberId) => {
@@ -96,6 +118,9 @@ export function Board() {
       const data = await resp.json();
       setCurrentMember(data);
       setShowMemberInfo(true);
+    } else if (resp.status === 401) {
+      localStorage.removeItem("token");
+      navigate("/");
     }
     setIsLoading(false);
   };
@@ -121,6 +146,9 @@ export function Board() {
           friends: [{ status: data.status }],
         }));
       }
+    } else if (resp.status === 401) {
+      localStorage.removeItem("token");
+      navigate("/");
     }
     setIsLoading(false);
   };
@@ -146,6 +174,9 @@ export function Board() {
           friends: [{ status: data.status, board_id: data.board_id }],
         }));
       }
+    } else if (resp.status === 401) {
+      localStorage.removeItem("token");
+      navigate("/");
     }
     setIsLoading(false);
   };
@@ -172,6 +203,9 @@ export function Board() {
           friends: [],
         }));
       }
+    } else if (resp.status === 401) {
+      localStorage.removeItem("token");
+      navigate("/");
     }
     setIsLoading(false);
   };
