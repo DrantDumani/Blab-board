@@ -11,19 +11,13 @@ import { ImageForm } from "../../components/ImageForm/ImageForm";
 import { FriendModal } from "../../components/FriendModal/FriendModal";
 import { Loading } from "../../components/Loading/Loading";
 import { useState, useEffect, useRef } from "react";
-import {
-  useOutletContext,
-  useLoaderData,
-  useParams,
-  useNavigate,
-} from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import { socket } from "../../socket";
 import { handleData } from "../../utils/handleData";
+import PropTypes from "prop-types";
 
-export function Board() {
-  const [user] = useOutletContext();
+export function Board({ user, board_id }) {
   const board = useLoaderData();
-  const { board_id } = useParams();
   const navigate = useNavigate();
   const [postList, setPostList] = useState(board.posts);
   const [showMembers, setShowMembers] = useState(false);
@@ -274,23 +268,9 @@ export function Board() {
     window.scrollTo(0, postListRef.current.scrollHeight);
   }, []);
 
-  useEffect(() => {
-    setPostList(board.posts);
-    setShowMembers(false);
-    setLabelTransform(false);
-    setIsMessage(false);
-    setShowBoardSettings(false);
-    setShowImageForm(false);
-    setShowMemberInfo(false);
-    setEditMsgId(NaN);
-    setUsersOnline({});
-    setMembers(board.members);
-    setCurrentMember({});
-  }, [board]);
-
   return (
     <>
-      <div className={styles.boardControls}>
+      <div key={board_id} className={styles.boardControls}>
         {board.type === "public" && (
           <button
             title="Settings"
@@ -447,3 +427,8 @@ export function Board() {
     </>
   );
 }
+
+Board.propTypes = {
+  user: PropTypes.object,
+  board_id: PropTypes.string,
+};

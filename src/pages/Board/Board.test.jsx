@@ -4,7 +4,7 @@ import userEvent from "@testing-library/user-event";
 import { describe, it, expect, vi } from "vitest";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
 
-const user = {
+const mockUser = {
   username: "Bubbles",
   id: 1,
   pfp: "",
@@ -34,7 +34,7 @@ const mockData = {
     {
       id: 1,
       text: "Bunnies",
-      timestamp: new Date(2000000000),
+      timestamp: new Date(2000000000).toDateString(),
       is_edited: true,
       author_id: 1,
       type: "text",
@@ -46,7 +46,7 @@ const mockData = {
     {
       id: 2,
       text: "professor.png",
-      timestamp: new Date(3000000000),
+      timestamp: new Date(3000000000).toDateString(),
       is_edited: false,
       author_id: 3,
       type: "image",
@@ -58,7 +58,7 @@ const mockData = {
     {
       id: 3,
       text: "Violence",
-      timestamp: new Date(4000000000),
+      timestamp: new Date(4000000000).toDateString(),
       is_edited: false,
       author_id: 2,
       type: "text",
@@ -70,13 +70,13 @@ const mockData = {
   ],
 };
 
-vi.mock(import("react-router-dom"), async (importOriginal) => {
-  const actual = await importOriginal();
-  return {
-    ...actual,
-    useOutletContext: () => [user, () => {}],
-  };
-});
+// vi.mock(import("react-router-dom"), async (importOriginal) => {
+//   const actual = await importOriginal();
+//   return {
+//     ...actual,
+//     useOutletContext: () => [user, () => {}],
+//   };
+// });
 
 // The socket callbacks will not be tested
 vi.mock("../../socket", () => ({
@@ -98,7 +98,7 @@ describe("Board page", () => {
     const mockRoute = [
       {
         path: "/",
-        element: <Board />,
+        element: <Board user={mockUser} board_id={"2"} />,
         loader: async () => mockData,
       },
     ];
@@ -115,7 +115,7 @@ describe("Board page", () => {
     const mockRoute = [
       {
         path: "/",
-        element: <Board />,
+        element: <Board user={mockUser} board_id={"2"} />,
         loader: async () => privateMockBoard,
       },
     ];
@@ -132,7 +132,7 @@ describe("Board page", () => {
     const mockRoute = [
       {
         path: "/",
-        element: <Board />,
+        element: <Board user={mockUser} board_id={"2"} />,
         loader: async () => mockData,
       },
     ];
@@ -149,7 +149,7 @@ describe("Board page", () => {
     const mockRoute = [
       {
         path: "/",
-        element: <Board />,
+        element: <Board user={mockUser} board_id={"2"} />,
         loader: async () => mockData,
       },
     ];
@@ -175,7 +175,7 @@ describe("Board page", () => {
     const mockRoute = [
       {
         path: "/",
-        element: <Board />,
+        element: <Board user={mockUser} board_id={"2"} />,
         loader: async () => mockData,
       },
     ];
@@ -192,7 +192,7 @@ describe("Board page", () => {
     const mockRoute = [
       {
         path: "/",
-        element: <Board />,
+        element: <Board user={mockUser} board_id={"2"} />,
         loader: async () => mockData,
       },
     ];
@@ -208,7 +208,7 @@ describe("Board page", () => {
     const mockRoute = [
       {
         path: "/",
-        element: <Board />,
+        element: <Board user={mockUser} board_id={"2"} />,
         loader: async () => mockData,
       },
     ];
@@ -231,7 +231,7 @@ describe("Board page", () => {
     const mockRoute = [
       {
         path: "/",
-        element: <Board />,
+        element: <Board user={mockUser} board_id={"2"} />,
         loader: async () => mockData,
       },
     ];
@@ -252,7 +252,7 @@ describe("Board page", () => {
     const mockRoute = [
       {
         path: "/",
-        element: <Board />,
+        element: <Board user={mockUser} board_id={"2"} />,
         loader: async () => mockData,
       },
     ];
@@ -288,7 +288,7 @@ describe("Board page", () => {
     const mockRoute = [
       {
         path: "/",
-        element: <Board />,
+        element: <Board user={mockUser} board_id={"2"} />,
         loader: async () => mockData,
       },
     ];
@@ -321,7 +321,7 @@ describe("Board page", () => {
     const mockRoute = [
       {
         path: "/",
-        element: <Board />,
+        element: <Board user={mockUser} board_id={"2"} />,
         loader: async () => mockData,
       },
     ];

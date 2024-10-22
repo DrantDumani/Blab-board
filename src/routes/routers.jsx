@@ -1,7 +1,6 @@
 import { Root } from "../pages/Root/Root";
 import { Auth } from "../pages/Auth/Auth";
 import { Layout } from "../pages/Layout/Layout";
-import { Board } from "../pages/Board/Board";
 import { Dashboard } from "../pages/Dashboard/Dashboard";
 import { authAction, dashBoardAction, boardAction } from "../utils/actions";
 import {
@@ -12,6 +11,7 @@ import {
 } from "../utils/loaders";
 import { Settings } from "../pages/Settings/Settings";
 import { Friends } from "../pages/Friends/Friends";
+import { BoardWrapper } from "../pages/BoardWrapper/BoardWrapper";
 
 export const routes = [
   {
@@ -55,7 +55,7 @@ export const routes = [
         },
       },
       {
-        element: <Board />,
+        element: <BoardWrapper />,
         path: ":board_id",
         loader: fetchAllBoardInfo,
         action: boardAction,
