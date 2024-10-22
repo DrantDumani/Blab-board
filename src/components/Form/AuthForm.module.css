@@ -1,0 +1,26 @@
+.authForm {
+  composes: modalContent from "../../styles/styles.css";
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.submitAuth {
+  composes: btn from "../../styles/styles.css";
+  background-color: #4fff4f;
+  align-self: center;
+}
+
+.submitAuth:hover {
+  background-color: #c2ffc2;
+}
+
+.submitAuth:disabled {
+  background-color: #737373;
+  color: #000;
+}
+
+.serverErr {
+  color: #ff3030;
+  text-align: center;
+}

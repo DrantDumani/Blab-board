@@ -1,0 +1,189 @@
+:root {
+  --top-section-pad: 1.8rem;
+}
+
+@value globalVars: "../../styles/globalVars.module.css";
+@value borderRules, rightPad, headerFontSize from globalVars;
+
+.board_member_wrapper {
+  display: flex;
+  position: relative;
+  border-bottom: borderRules;
+}
+
+.boardWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+  min-height: 100%;
+  padding-top: var(--top-section-pad);
+}
+
+.boardControls {
+  display: flex;
+  justify-content: space-around;
+  padding-bottom: 0.5rem;
+  border-bottom: borderRules;
+}
+
+.svgBtn {
+  composes: svgControls from "../../styles/styles.css";
+}
+
+.userCard {
+  composes: post_user_card from "../../styles/styles.css";
+  margin-bottom: 1.8rem;
+
+  width: 100%;
+  background-color: inherit;
+  color: inherit;
+  border: none;
+  border-radius: 4px;
+  padding: 0.4rem;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #525151;
+  }
+}
+
+.memberHeader {
+  margin-bottom: 1.8rem;
+  border-bottom: borderRules;
+}
+
+.postOptions {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.8rem;
+  padding-bottom: 1rem;
+}
+
+.postOptions__label {
+  flex-basis: 100%;
+  position: relative;
+}
+
+.postOptions__postControls {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.8rem;
+
+  & svg {
+    width: 2rem;
+    height: auto;
+
+    &:hover {
+      filter: drop-shadow(1px 1px 5px #fff);
+    }
+  }
+}
+
+.postOptions__form {
+  width: 100%;
+  display: flex;
+  gap: 0.8rem;
+}
+
+.postOptions__labelText {
+  position: absolute;
+  left: 8px;
+  font-size: 24px;
+  color: #c0c0c0;
+  transition: transform 0.3s ease;
+  transform-origin: top left;
+}
+
+.postOptions__labelTextSmall {
+  transform: scale(0.3);
+}
+
+.postOptions__postInput {
+  border-radius: 8px;
+  padding: 0.6rem 0.5rem 0.2rem;
+  border: 1px solid #fff;
+  font-family: inherit;
+  width: 100%;
+  height: 100%;
+  background-color: inherit;
+  color: inherit;
+}
+
+.memberWrapper {
+  position: absolute;
+  background-color: #0b0b0b;
+  width: 100%;
+  min-height: 100%;
+  left: -100vw;
+  transition: left 0.4s ease-in;
+  padding-top: var(--top-section-pad);
+}
+
+.memberWrapperActive {
+  left: 0;
+}
+
+.boardOwner {
+  padding-bottom: 1rem;
+}
+
+.userCard__owner {
+  margin-bottom: 1.8rem;
+}
+
+.userCard__username {
+  align-self: center;
+  font-weight: 700;
+  word-break: break-word;
+}
+
+@media (min-width: 768px) {
+  .memberWrapper {
+    flex-basis: 45%;
+    position: static;
+  }
+
+  .userCard {
+    margin-left: 1.2rem;
+    width: 90%;
+  }
+
+  .boardTitle,
+  .boardOwner {
+    padding-left: 1.2rem;
+  }
+
+  .boardWrapper {
+    flex-basis: 55%;
+    border-right: borderRules;
+  }
+
+  .boardWrapper,
+  .memberWrapper {
+    overflow-y: scroll;
+    max-height: 100vh;
+    scrollbar-width: none;
+  }
+
+  .postOptions {
+    padding-right: 0.8rem;
+  }
+
+  .postOptions {
+    margin-top: auto;
+  }
+
+  .mobileOnly {
+    display: none;
+  }
+}
+
+@media (min-width: 1280px) {
+  .boardWrapper {
+    flex-basis: 75%;
+  }
+
+  .memberWrapper {
+    flex-basis: 25%;
+  }
+}

@@ -1,0 +1,24 @@
+.modalWrapper {
+  position: fixed;
+  inset: 0;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #000a;
+  gap: 1rem;
+}
+
+.modalBtn {
+  color: inherit;
+  background-color: transparent;
+  border: none;
+  font-weight: 600;
+  font-size: 1.5rem;
+  cursor: pointer;
+
+  &:hover {
+    text-shadow: 1px 1px 5px #fff;
+  }
+}

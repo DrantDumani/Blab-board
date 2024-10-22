@@ -1,0 +1,23 @@
+.errWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.errContent {
+  text-align: center;
+}
+
+.errTitle {
+  line-height: 1;
+}
+
+.link {
+  color: #04f8f8;
+
+  &:hover {
+    color: #9dffff;
+  }
+}

@@ -1,0 +1,20 @@
+.loadingWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #131313e6;
+  min-height: 100vh;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+}
+
+.letter {
+  transition: transform ease 0.2s;
+  color: #fff;
+  font-size: 3rem;
+}
+
+.anim {
+  transform: translateY(-10px);
+}

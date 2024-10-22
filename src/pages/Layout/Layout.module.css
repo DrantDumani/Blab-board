@@ -1,0 +1,23 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.layoutWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  min-height: inherit;
+}
+
+.footer {
+  margin-top: auto;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .header {
+    align-items: baseline;
+  }
+}

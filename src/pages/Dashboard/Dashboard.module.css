@@ -1,0 +1,66 @@
+.dashboard {
+  padding-top: 2rem;
+}
+
+.boardUI {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 1.5rem;
+  justify-content: center;
+}
+
+.boardBtn {
+  width: 100%;
+  max-width: 300px;
+  border: 1px solid #fff;
+  border-radius: 0.25rem;
+  text-align: center;
+  padding: 0.5rem;
+  cursor: pointer;
+  font-size: 18px;
+  color: inherit;
+}
+
+.linkBtn {
+  background-color: #004a77;
+  &:hover {
+    background-color: #002c47;
+  }
+}
+
+.greenBtn {
+  background-color: #006e00;
+  &:hover {
+    background-color: #004400;
+  }
+}
+
+.boardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  padding: 3.5rem 0;
+  gap: 1.5rem;
+}
+
+.boardWrapper {
+  text-align: center;
+  &:hover > .boardTitle {
+    color: #c0c0c0;
+  }
+  & img {
+    border: 3px solid #fff;
+  }
+}
+
+.boardControl {
+  background-color: transparent;
+  border: none;
+  color: #91ffe0;
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: 600;
+
+  &:hover {
+    color: #19d09c;
+  }
+}
