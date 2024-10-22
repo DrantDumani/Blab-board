@@ -1,7 +1,7 @@
 const apiStr =
   import.meta.env.MODE === "development"
     ? "http://localhost:3000/"
-    : "INSERT_PROD_URL_HERE";
+    : "https://blab-board-api.onrender.com/";
 
 export const handleData = async (
   endPoint,

@@ -5,7 +5,7 @@ export function CircleImage({ src, dimensions, isOnline = false }) {
   const notFoundImg =
     (import.meta.env.MODE !== "production"
       ? "http://localhost:3000/"
-      : "INSERT_PROD_URL_HERE") + "images/notFound.png";
+      : "https://blab-board-api.onrender.com/") + "images/notFound.png";
 
   return (
     <img
