@@ -42,9 +42,6 @@ html,
 
 #root {
   min-height: 100vh;
-  padding: 1rem;
-  margin: 0 auto;
-  max-width: 80rem;
 }
 
 body {
@@ -56,16 +53,4 @@ body {
 a {
   text-decoration: none;
   color: inherit;
-}
-
-@media (min-width: 768px) {
-  #root {
-    padding: 2.75rem 3.5rem;
-  }
-}
-
-@media (min-width: 1280px) {
-  #root {
-    padding: 3.5rem 5rem;
-  }
 }
