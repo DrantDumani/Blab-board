@@ -50,6 +50,11 @@ export function Settings() {
     }
   };
 
+  const logout = () => {
+    localStorage.removeItem("token");
+    navigate("/");
+  };
+
   return (
     <div className={styles.settingsWrapper}>
       <div className={styles.settings}>
@@ -60,6 +65,12 @@ export function Settings() {
         <div className={styles.settings__container}>
           <p className={styles.settings__aboutHeader}>About Me:</p>
           <p className={styles.settings__about}>{user.about}</p>
+          <button
+            onClick={logout}
+            className={`${styles.settings__btn} ${styles.whiteBtn}`}
+          >
+            Log Out
+          </button>
           <button
             className={`${styles.settings__btn} ${
               showEdit ? styles.redBtn : styles.yellowBtn

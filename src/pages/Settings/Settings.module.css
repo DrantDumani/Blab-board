@@ -53,6 +53,10 @@
   }
 }
 
+.whiteBtn {
+  margin-bottom: 1.5rem;
+}
+
 .form {
   display: flex;
   flex-direction: column;
