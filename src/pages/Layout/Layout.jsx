@@ -25,7 +25,9 @@ export function Layout() {
       <main className={styles.main}>
         <Outlet context={[user, updateUser]} />
       </main>
-      <footer></footer>
+      <footer className={styles.footer}>
+        <p>Created By Darnell</p>
+      </footer>
     </div>
   );
 }
