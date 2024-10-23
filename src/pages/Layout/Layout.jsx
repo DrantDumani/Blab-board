@@ -3,10 +3,11 @@ import { Navbar } from "../../components/Navbar/Navbar";
 import { Loading } from "../../components/Loading/Loading";
 import styles from "./Layout.module.css";
 import { useState } from "react";
+import { jwtDecode } from "jwt-decode";
 
 const getDataFromToken = () => {
   const token = localStorage.getItem("token");
-  return token ? JSON.parse(window.atob(token.split(".")[1])) : null;
+  return token ? jwtDecode(token) : null;
 };
 
 export function Layout() {
